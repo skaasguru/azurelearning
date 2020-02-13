@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="en">
+    
+<!-- Mirrored from microsoftlearning.github.io/20532-DevelopingMicrosoftAzureSolutions/Instructions/Labs/Mod02/LAB_AK_02.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Feb 2020 04:43:06 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+        <title>
+            20532: Developing Microsoft Azure Solutions - Module 2: Building Application Infrastructure in Azure
+        </title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="../../../../../maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="../../../../../maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link rel="stylesheet" href="../../../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs.min.css">
+        <script src="../../../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+        <link rel="stylesheet" href="../../../assets/css/style3a94.css?v=d86f0e41cbfc727fd1aa5c93305bbd3184d0b042">
+    </head>
+    <body data-spy="scroll" data-target="#linksMenu">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+        <div class="container d-flex justify-content-between">
+            <a class="my-1 title text-azure text-uppercase" href="http://microsoftlearning.github.io/20532-DevelopingMicrosoftAzureSolutions">
+                20532: Developing Microsoft Azure Solutions
+            </a>
+            <a href="https://github.com/MicrosoftLearning/20532-DevelopingMicrosoftAzureSolutions" target="_blank" class="btn btn-sm btn-outline-secondary text-light">
+                <i class="fa fa-github" aria-hidden="true"></i>
+                <span class="ml-2">GitHub</span>
+            </a>
+        </div>
+    </nav>
+    <div class="container">
+        <main class="row extra-padding">
+            <aside class="col-sm-2">       
+                <nav id="linksMenu" class="toc sticky-top">
+                    <ul class="nav navbar-nav flex-column">
+                    </ul>
+                </nav>         
+            </aside>
+            <hr class="" />
+            <article class="col-sm-10 mb-5">
+                <h1 id="module-2-building-application-infrastructure-in-azure">Module 2: Building Application Infrastructure in Azure</h1>
+
+<h1 id="lab-creating-an-azure-virtual-machine-for-development-and-testing">Lab: Creating an Azure Virtual Machine for Development and Testing</h1>
+
+<h3 id="exercise-1-creating-a-network-and-resource-container">Exercise 1:	Creating a Network and Resource Container</h3>
+
+<h4 id="task-1-sign-in-to-the-azure-portal">Task 1: Sign in to the Azure Portal</h4>
+
+<ol>
+  <li>
+    <p>On the Start screen, click the <strong>Internet Explorer</strong> tile.</p>
+  </li>
+  <li>
+    <p>Go to <em>(<a href="https://portal.azure.com/">https://portal.azure.com</a>)</em>.</p>
+  </li>
+  <li>
+    <p>Enter the email address of your Microsoft account. Click <strong>Next</strong>.</p>
+  </li>
+  <li>
+    <p>Enter the password for your Microsoft account.</p>
+  </li>
+  <li>
+    <p>Click <strong>Sign In</strong>.</p>
+  </li>
+</ol>
+
+<h4 id="task-2-create-a-resource-group">Task 2: Create a Resource Group</h4>
+
+<ol>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>Resource groups</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Resource groups</strong> blade that displays, view your list of resource groups.</p>
+  </li>
+  <li>
+    <p>At the top of the <strong>Resource groups</strong> blade, click the <strong>Add</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <strong>Resource group</strong> blade, perform the following steps:</p>
+
+    <p>a. In the <strong>Resource group name</strong> dialog box, provide the value <strong>20532</strong>.</p>
+
+    <p>a. In the <strong>Resource group location</strong> list, select the region that is closest to your current location.</p>
+  </li>
+  <li>
+    <p>In the <strong>Resource group</strong> blade, click <strong>Create</strong>.</p>
+  </li>
+</ol>
+
+<h4 id="task-3-create-a-virtual-network">Task 3: Create a Virtual Network</h4>
+
+<ol>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>Virtual networks</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Virtual networks</strong> blade that displays, view your list of virtual network instances.</p>
+  </li>
+  <li>
+    <p>At the top of the <strong>Virtual networks</strong> blade, click the <strong>Add</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <strong>Create virtual network</strong> blade, perform the following steps:</p>
+
+    <p>a. In the <strong>Name</strong> dialog box, provide the value <strong>vnet20532</strong>.</p>
+
+    <p>a. In the <strong>Address space</strong> field provide the value <strong>10.0.0.0/16</strong>.</p>
+
+    <p>a. In the <strong>Resource group</strong> field, select the value <strong>20532</strong>.</p>
+
+    <p>a. In the <strong>Location</strong> list, select the region that is closest to your current location.</p>
+
+    <p>a. Within the <strong>Subnet</strong> section, in the <strong>Name</strong> field, provide the value <strong>Apps</strong>.</p>
+
+    <p>a. Within the <strong>Subnet</strong> section, in the <strong>Address range</strong> field, provide the value <strong>10.0.0.0/24</strong>.</p>
+
+    <p>a. Leave all the other option with the default values.</p>
+
+    <p>a. Click the <strong>Create</strong> button.</p>
+  </li>
+</ol>
+
+<blockquote>
+  <p><strong>Results</strong>: After completing this exercise, you will have a new virtual network and resource group in Azure</p>
+</blockquote>
+
+<h3 id="exercise-2-creating-a-development-virtual-machine">Exercise 2:	Creating a Development Virtual Machine</h3>
+
+<h4 id="task-1-create-a-storage-account">Task 1: Create a Storage Account</h4>
+
+<ol>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>Storage Accounts</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Storage accounts</strong> blade that displays, view your list of Storage instances.</p>
+  </li>
+  <li>
+    <p>At the top of the <strong>Storage accounts</strong> blade, click the <strong>Add</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <strong>Create storage account</strong> blade that displays, perform the following steps:</p>
+
+    <p>a. In the <strong>Resource group</strong> field, select the value <strong>20532</strong>.</p>
+
+    <p>a. In the <strong>Storage account name</strong> field, provide the value <strong>stor20532[your name in lowercase here]</strong>.</p>
+
+    <p>a. In the <strong>Location</strong> list, select the region closest to your current location.</p>
+
+    <p>a. In the <strong>Performance</strong> section, ensure that the <em>Standard</em> option is selected</p>
+
+    <p>a. In the <strong>Account kind</strong> list, select the <strong>Storage (general purpose v1)</strong> option.</p>
+
+    <p>a. Click on the <strong>Replication</strong> list and select the <strong>Locally-redundant storage (LRS)</strong> option.</p>
+
+    <p>a. Click the <strong>Review + create</strong> button.</p>
+
+    <p>a. Review all the selected options</p>
+
+    <p>a. Click the <strong>Create</strong> button.</p>
+  </li>
+</ol>
+
+<blockquote>
+  <p><strong>Note</strong>: Wait for Azure to finish creating the storage account prior to moving forward with the lab. You will receive a notification when the <em>Storage Account</em> is created and you will see the Storage Account’s blade.</p>
+</blockquote>
+
+<h4 id="task-2-create-a-virtual-machine">Task 2: Create a Virtual Machine</h4>
+
+<ol>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>Virtual machines</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Virtual machines</strong> blade that displays, view your list of Virtual Machine instances.</p>
+  </li>
+  <li>
+    <p>At the top of the <strong>Virtual machines</strong> blade, click the <strong>Add</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <strong>Create a virtual machine</strong> blade that displays, perform the following steps:</p>
+
+    <p>a. In the <strong>Resource group</strong> field, select the value <strong>20532</strong>.</p>
+
+    <p>a. In the <strong>Virtual machine name</strong> field, provide the value <strong>vm20532</strong>.</p>
+
+    <p>a. In the <strong>Region</strong> list, select the region closest to your current location.</p>
+
+    <p>a. In the <strong>Image</strong> list, click in the <strong>Browse all images and disks</strong> link.</p>
+
+    <p>a. Search for <strong>Visual Studio 2017</strong> and the select the <strong>Visual Studio Community 2017 (latest release) on Windows Server 2016 (x64)</strong> option in the list of results.</p>
+
+    <p>a. In the <strong>Size</strong> option, click in the <strong>Change size</strong> link.</p>
+
+    <p>a. Locate and select the <strong>F4</strong> option and click the <strong>Select</strong> button.</p>
+
+    <p>a. In the <strong>Username</strong> field, provide the value <strong>Student</strong>.</p>
+
+    <p>a. In the <strong>Password</strong> and <strong>Confirm password</strong> fields, provide the value <strong>AzurePa$$w0rd</strong></p>
+
+    <p>a. In the <strong>Public inboud ports</strong> option, select the <strong>Allow selected ports</strong> option.</p>
+
+    <p>a. In the <strong>Selected inbound ports</strong> list, select the <strong>RDP (3389)</strong> option.</p>
+
+    <p>a. Click the <strong>Next: Disks &gt;</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <strong>Disks</strong> tab perform the following steps:</p>
+
+    <p>a. In the <strong>OS disk type</strong> option, make sure the <strong>Standard HDD</strong> option is selected.</p>
+
+    <p>a. In the <strong>Use unmanaged disks</strong> option, select the option <strong>Yes</strong>.</p>
+
+    <p>a. In the <strong>Storage account</strong> list, select the storage account created in the previous task.</p>
+
+    <p>a. Click the <strong>Next: Networking &gt;</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <strong>Networking</strong> tab perform the following steps:</p>
+
+    <p>a. In the <strong>Virtual Network</strong> list, make sure the <strong>vnet20532</strong> virtual network is selected.</p>
+
+    <p>a. In the <strong>Subnet</strong> list, make sure the <strong>Apps</strong> subnet is selected.</p>
+
+    <p>a. Accept all the other default options.</p>
+
+    <p>a. Click the <strong>Next: Management &gt;</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <strong>Management</strong> tab perform the following steps:</p>
+
+    <p>a. In the <strong>Boot diagnostics</strong> option, select the <strong>Off</strong> option..</p>
+
+    <p>a. In the <strong>Guest OS diagnostics</strong> option, select the <strong>Off</strong> option.</p>
+
+    <p>a. Accept all the other default options.</p>
+
+    <p>a. Click the <strong>Review + create</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <strong>Review + create</strong> tab, review all the select options and then click <strong>Create</strong> to create the virtual machine using your specified configuration.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: The creation of a new virtual machine can take anywhere between 10 to 15 minutes. You will see a notification on the Dashboard (home screen) when your virtual machine is created and running.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>Virtual machines</strong></p>
+  </li>
+  <li>
+    <p>Select the newly created virtual machine from the list.</p>
+  </li>
+  <li>
+    <p>In the <strong>vm20532</strong> blade, locate the <strong>Settings</strong> section.</p>
+  </li>
+  <li>
+    <p>In the <strong>Settings</strong> section, select the <strong>Disks</strong> option.</p>
+  </li>
+  <li>
+    <p>In the <strong>Disks</strong> blade, click the <strong>Add data disk</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <strong>Attach unmanaged disk</strong> blade, perform the following steps:</p>
+
+    <p>a. In the <strong>Name</strong> field, provide <strong>vm20532-AllFiles</strong></p>
+
+    <p>a. For <strong>Source type</strong>, select <strong>New (empty disk)</strong></p>
+
+    <p>a. For <strong>Account type</strong>, select <strong>Standard (HDD)</strong>.</p>
+
+    <p>a. In the <strong>Size (GiB)</strong> dialog box, provide the value, <strong>128</strong>.</p>
+
+    <p>a. In the <strong>Storage container</strong> section, click on <strong>Browse</strong> and then from the <strong>Storage account</strong> blade, select the previously created storage account, <strong>stor20532[Your Name Here]</strong></p>
+
+    <p>a. In the <strong>Containers</strong> blade, select <strong>vhds</strong> container and click <strong>Select</strong>.</p>
+
+    <p>a. Click the <strong>OK</strong> button.</p>
+
+    <p>a. To create the second disk, click the <strong>Save</strong> button at the top of the blade.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: Wait about five minutes for the empty disk to be attached to the virtual machine.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Select the <strong>Overview</strong> option to return to the <strong>vm20532</strong> blade.</p>
+  </li>
+  <li>
+    <p>Click <strong>Connect</strong> at the top of the screen.</p>
+  </li>
+  <li>
+    <p>In the <strong>Connect to virtual machine</strong> dialog that appears, click the <strong>Download RDP File</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <strong>Internet Explorer download</strong> dialog box, click <strong>Open</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Remote Desktop Connection</strong> dialog box, perform the following steps:</p>
+
+    <p>a. Click <strong>Don’t ask me again for connections to this computer</strong> to prevent this dialog box from displaying again.</p>
+
+    <p>a. Click <strong>Connect</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Windows Security</strong> dialog box, perform the following steps:</p>
+
+    <p>a. Click the <strong>More choices</strong> located at the bottom of the dialog box.</p>
+
+    <p>a. Click <strong>Use a different account</strong> that appears.</p>
+
+    <p>a. For the <strong>User name</strong> dialog box, provide the value, <strong>Student</strong>.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: If you computer is on a domain, you may need to add a backslash before the username to “escape” the domain.</p>
+    </blockquote>
+
+    <p>a. For the <strong>Password</strong> dialog box, provide the value, <strong>AzurePa$$w0rd</strong>.</p>
+
+    <p>a. Click the <strong>OK</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <strong>Remote Desktop Connection</strong> dialog box, perform the following steps:</p>
+
+    <p>a. Verify if the Remote certificate name matches the name of your virtual machine.</p>
+
+    <p>a. Click <strong>Don’t ask me again for connections to this computer</strong> to prevent this dialog box from displaying again.</p>
+
+    <p>a. Click <strong>Yes</strong>.</p>
+  </li>
+  <li>
+    <p>When you are prompted to allow your network connection to discover external devices, click <strong>Yes</strong>.</p>
+  </li>
+</ol>
+
+<blockquote>
+  <p><strong>Results</strong>: After completing this exercise, you will have a new virtual machine stored in a new storage account.</p>
+</blockquote>
+
+<h3 id="exercise-3-configuring-the-virtual-machine-for-development">Exercise 3: Configuring the Virtual Machine for Development</h3>
+
+<h4 id="task-1-disable-ie-enhanced-security-configuration">Task 1: Disable IE Enhanced Security Configuration</h4>
+
+<ol>
+  <li>
+    <p>On the Start screen, click the <strong>Server Manager</strong> tile.</p>
+  </li>
+  <li>
+    <p>In the navigation pane on the left side, click <strong>Local Server</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Properties</strong> field, click the <strong>IE Enhanced Security Configuration</strong> option that is currently set to <strong>Off</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Internet Explorer Enhanced Security Configuration</strong> dialog box, perform the following steps:</p>
+
+    <p>a. Under <em>Administrators</em>, select <strong>Off</strong>.</p>
+
+    <p>a. Under <em>Users</em>, select <strong>Off</strong>.</p>
+
+    <p>a. Click the <strong>OK</strong> button.</p>
+  </li>
+</ol>
+
+<h4 id="task-2-create-an-allfiles-drive">Task 2: Create an AllFiles Drive</h4>
+
+<ol>
+  <li>
+    <p>Locate and right-click the <strong>Start Menu</strong> located in the lower-left corner of the <strong>Windows</strong> desktop.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: If you are unfamiliar with the latest Windows operating system environment, the <strong>Start Menu</strong> used the <strong>Windows</strong> icon.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Select the <strong>Disk Management</strong> option.</p>
+  </li>
+  <li>
+    <p>In the <strong>Initialize Disk</strong> dialog box, perform the following steps:</p>
+
+    <p>a. Verify that <strong>Disk 2</strong> is selected for initialization.</p>
+
+    <p>a. Verify that <strong>MBR (Master Boot Record)</strong> is the selected partition style.</p>
+
+    <p>a. Click the <strong>OK</strong> button.</p>
+  </li>
+  <li>
+    <p>In the lower-half of the Disk Management window, perform the following steps:</p>
+
+    <p>a. Scroll down and find <strong>Disk 2</strong> that was previously initialized.</p>
+
+    <p>a. Right-click the unallocated partition, and then click <strong>New Simple Volume</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>New Simple Volume</strong> wizard, perform the following steps:</p>
+
+    <p>a. Click <strong>Next</strong>.</p>
+
+    <p>a. Verify that the <strong>Simple volume size in MB</strong> is a number greater than <strong>100000</strong>.</p>
+
+    <p>a. Click <strong>Next</strong>.</p>
+
+    <p>a. In the <strong>Assign the following drive letter</strong> list, click <strong>F</strong>.</p>
+
+    <p>a. Click <strong>Next</strong>.</p>
+
+    <p>a. Verify that the <strong>File System</strong> setting is set to <strong>NTFS</strong>.</p>
+
+    <p>a. In the <strong>Volume Label</strong> dialog box, provide the value <strong>AllFiles</strong>.</p>
+
+    <p>a. Click <strong>Next</strong>.</p>
+
+    <p>a. Click <strong>Finish</strong> to close the dialog box, and then create the partition.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: If a dialog box displays stating that “You need to format the disk in drive F: before you can use it.”, you can safely close it because you already formatted the disk.</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h4 id="task-3-download-the-allfiles-content">Task 3: Download the AllFiles Content</h4>
+
+<ol>
+  <li>
+    <p>On the Start screen, click the <strong>Internet Explorer</strong> tile.</p>
+  </li>
+  <li>
+    <p>If you are prompted to set up Internet Explorer 11, perform the following steps:</p>
+
+    <p>a. Select <strong>Use recommended security, privacy and compatibility settings</strong>.</p>
+
+    <p>a. Click the <strong>OK</strong> button.</p>
+  </li>
+  <li>
+    <p>Go to <em>(<a href="https://github.com/MicrosoftLearning/20532-DevelopingMicrosoftAzureSolutions/releases/latest">https://github.com/MicrosoftLearning/20532-DevelopingMicrosoftAzureSolutions/releases/latest</a>)</em>.</p>
+  </li>
+  <li>
+    <p>Scroll down the screen until you find the <strong>allfiles</strong> download link.</p>
+  </li>
+  <li>
+    <p>Click the link to download the AllFiles compressed folder.</p>
+  </li>
+  <li>
+    <p>In the <strong>Internet Explorer</strong> download dialog box, click <strong>Save</strong>.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: The download of the AllFiles executable typically takes around five minutes.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Click the <strong>Windows File Explorer</strong> icon in your Taskbar.</p>
+  </li>
+  <li>
+    <p>On the left navigation bar, expand the <strong>This PC</strong> node and click the <strong>Downloads</strong> node:</p>
+  </li>
+  <li>
+    <p>Right-click the <strong>allfiles</strong> compressed folder and select the <strong>Properties</strong> option.</p>
+  </li>
+  <li>
+    <p>In the <strong>allfiles Properties</strong> dialog box, do the following:</p>
+
+    <p>a. Ensure the <strong>Unblock</strong> checkbox is selected.</p>
+
+    <p>a. Click the <strong>OK</strong> button.</p>
+  </li>
+  <li>
+    <p>Right-click the <strong>allfiles</strong> compressed folder and select the <strong>Extract all</strong> option.</p>
+  </li>
+  <li>
+    <p>In the <strong>Extract Compressed (Zipped) Folders</strong> dialog box, do the following:</p>
+
+    <p>a. In the <strong>Files will be extracted to this folder:</strong> dialog, provide the value <strong>F:\</strong>.</p>
+
+    <p>a. Ensure that the <strong>Show extracted files when complete</strong> checkbox is not selected.</p>
+
+    <p>a. Click <strong>Extract</strong>.</p>
+  </li>
+  <li>
+    <p>Wait for the extraction process to complete.</p>
+  </li>
+</ol>
+
+<h4 id="task-4-add-your-azure-subscription-to-visual-studio">Task 4: Add your Azure subscription to Visual Studio</h4>
+
+<ol>
+  <li>On the Start screen, locate and click the <strong>Visual Studio 2017</strong> tile.</li>
+</ol>
+
+<blockquote>
+  <p><strong>Note</strong>: You might have to use the down arrow to locate the Visual Studio 2017 tile on your Start screen.</p>
+</blockquote>
+
+<ol>
+  <li>
+    <p>You will be prompted to sign-in using a <strong>Microsoft Account</strong>. Perform the following steps:</p>
+
+    <p>a. Click the <strong>Sign in</strong> button.</p>
+
+    <p>a. Enter the email address of your Microsoft account. Click <strong>Continue</strong>.</p>
+
+    <p>a. Ensure that the <strong>Keep me signed in</strong> option is selected.</p>
+
+    <p>a. Enter the password for your Microsoft account.</p>
+
+    <p>a. Click <strong>Sign In</strong>.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: You may be prompted by Internet Explorer to remember this password. You can safely close and ignore this dialog.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>If you have never used <strong>Visual Studio</strong> in the past, you will be prompted to configure your Microsoft Account. Perform the following steps:</p>
+
+    <p>a. Select your <strong>country\region</strong> from the provided list.</p>
+
+    <p>a. Leave the remaining fields set to their default values.</p>
+
+    <p>a. Click the <strong>Continue</strong> button.</p>
+  </li>
+  <li>
+    <p>If you have never used <strong>Visual Studio</strong> in the past, you will also be prompted to configure the apperance of your IDE. Perform the following steps:</p>
+
+    <p>a. Leave all fields set to their default values.</p>
+
+    <p>a. click the <strong>Start Visual Studio</strong> button.</p>
+  </li>
+  <li>
+    <p>Wait for <em>Visual Studio</em> to finish <strong>preparing for first use</strong>.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: This process typically takes between 2 to 5 minutes.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Validate that you can see the Visual Studio <strong>Start Page</strong>.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: This Virtual Machine will come with <strong>Visual Studio 2017</strong>, the <strong>Azure Storage Emulator</strong> and <strong>SQL LocalDB</strong> pre-installed.</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h4 id="task-5-install-the-azure-cosmos-db-emulator">Task 5: Install the Azure Cosmos DB Emulator</h4>
+
+<ol>
+  <li>
+    <p>On the Start screen, click the <strong>Internet Explorer</strong> tile.</p>
+  </li>
+  <li>
+    <p>Go to <em>(<a href="https://aka.ms/cosmosdb-emulator">https://aka.ms/cosmosdb-emulator</a>)</em>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Internet Explorer</strong> download dialog box, click <strong>Save</strong>.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: The download of the executable typically takes around two minutes.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Click the <strong>Windows File Explorer</strong> icon in your Taskbar.</p>
+  </li>
+  <li>
+    <p>On the left navigation bar, expand the <strong>This PC</strong> node and click the <strong>Downloads</strong> node:</p>
+  </li>
+  <li>
+    <p>Right-click the <strong>Azure Cosmos DB.Emulator</strong> MSI installer and select the <strong>Properties</strong> option.</p>
+  </li>
+  <li>
+    <p>In the <strong>Azure Cosmos DB.Emulator Properties</strong> dialog box, do the following:</p>
+
+    <p>a. Ensure the <strong>Unblock</strong> checkbox is selected.</p>
+
+    <p>a. Click the <strong>OK</strong> button.</p>
+  </li>
+  <li>
+    <p>Right-click the <strong>Azure Cosmos DB.Emulator</strong> MSI installer and select the <strong>Install</strong> option.</p>
+  </li>
+  <li>
+    <p>In the <strong>Azure Cosmos DB Emulator Setup</strong> dialog, perform the following actions:</p>
+
+    <p>a. Ensure the <strong>I accept the terms in the License Agreement</strong> checkbox is selected.</p>
+
+    <p>a. Click the <strong>Install</strong> button.</p>
+  </li>
+  <li>
+    <p>Wait for the installation process to complete.</p>
+  </li>
+  <li>
+    <p>Ensure the <strong>Launch Azure Cosmos DB Emulator</strong> checkbox is unselected.</p>
+  </li>
+  <li>
+    <p>Click the <strong>Finish</strong> button to close the installer.</p>
+  </li>
+  <li>
+    <p>Close the currently running <strong>Visual Studio</strong> application.</p>
+  </li>
+</ol>
+
+<blockquote>
+  <p><strong>Results</strong>: After completing this exercise, your development virtual machine will have your lab files installed. Your virtual machine will also have Visual Studio, Azure PowerShell, and the Azure SDK installed.</p>
+</blockquote>
+
+            </article>
+        </main>
+    </div>
+    <footer class="fixed-bottom">
+        <nav class="navbar navbar-light bg-light d-flex justify-content-around">
+            <span class="navbar-text">
+                <i class="fa fa-github" aria-hidden="true"></i>
+                <a href="https://github.com/MicrosoftLearning/20532-DevelopingMicrosoftAzureSolutions" target="_blank" class="ml-2">
+                    MicrosoftLearning/20532-DevelopingMicrosoftAzureSolutions
+                </a>
+            </span>
+        </nav>
+    </footer>
+    <script src="../../../../../code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="../../../../../cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="../../../../../maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+        $(function() {
+            $('article img').each(function() {
+                var src = $(this).attr('src');
+                $(this).wrap('<a href="' + src + '" target="_blank"></a>');
+            });
+            $('article > h2').each(function() {
+                $('nav.toc > ul').append(
+                    $('<li>')
+                        .attr('class', 'nav-item')
+                        .append(
+                            $('<a>')
+                                .attr('class', 'nav-link')
+                                .text($(this).text())
+                                .attr('href', '#' + $(this).attr('id'))
+                        ) 
+                );
+            });
+            $('[data-spy="scroll"]').each(function () {
+                var $spy = $(this).scrollspy('refresh')
+            });
+        });
+    </script>
+</body>
+
+
+<!-- Mirrored from microsoftlearning.github.io/20532-DevelopingMicrosoftAzureSolutions/Instructions/Labs/Mod02/LAB_AK_02.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Feb 2020 04:43:06 GMT -->
+</html>

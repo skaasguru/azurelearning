@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="en">
+    
+<!-- Mirrored from microsoftlearning.github.io/20532-DevelopingMicrosoftAzureSolutions/Instructions/Labs/Mod04/LAB_AK_04.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Feb 2020 04:43:06 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+        <title>
+            20532: Developing Microsoft Azure Solutions - Module 4: Storing SQL Data in Azure
+        </title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="../../../../../maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="../../../../../maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link rel="stylesheet" href="../../../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs.min.css">
+        <script src="../../../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+        <link rel="stylesheet" href="../../../assets/css/style3a94.css?v=d86f0e41cbfc727fd1aa5c93305bbd3184d0b042">
+    </head>
+    <body data-spy="scroll" data-target="#linksMenu">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+        <div class="container d-flex justify-content-between">
+            <a class="my-1 title text-azure text-uppercase" href="http://microsoftlearning.github.io/20532-DevelopingMicrosoftAzureSolutions">
+                20532: Developing Microsoft Azure Solutions
+            </a>
+            <a href="https://github.com/MicrosoftLearning/20532-DevelopingMicrosoftAzureSolutions" target="_blank" class="btn btn-sm btn-outline-secondary text-light">
+                <i class="fa fa-github" aria-hidden="true"></i>
+                <span class="ml-2">GitHub</span>
+            </a>
+        </div>
+    </nav>
+    <div class="container">
+        <main class="row extra-padding">
+            <aside class="col-sm-2">       
+                <nav id="linksMenu" class="toc sticky-top">
+                    <ul class="nav navbar-nav flex-column">
+                    </ul>
+                </nav>         
+            </aside>
+            <hr class="" />
+            <article class="col-sm-10 mb-5">
+                <h1 id="module-4-storing-sql-data-in-azure">Module 4: Storing SQL Data in Azure</h1>
+
+<h1 id="lab-storing-event-data-in-azure-sql-databases">Lab: Storing Event Data in Azure SQL Databases</h1>
+
+<h2 id="exercise-1-creating-an-azure-sql-database-instance">Exercise 1: Creating an Azure SQL Database Instance</h2>
+
+<h4 id="task-1-sign-in-to-the-azure-portal">Task 1: Sign in to the Azure Portal</h4>
+
+<ol>
+  <li>
+    <p>On the Start screen, click the <strong>Internet Explorer</strong> tile.</p>
+  </li>
+  <li>
+    <p>Go to <em>(<a href="https://portal.azure.com/">https://portal.azure.com</a>)</em>.</p>
+  </li>
+  <li>
+    <p>In the email address box, type the email address of your Microsoft account.</p>
+  </li>
+  <li>
+    <p>Click Continue.</p>
+  </li>
+  <li>
+    <p>In the password box, type your password for your Microsoft account.</p>
+  </li>
+  <li>
+    <p>Click <strong>Sign In</strong>.</p>
+  </li>
+</ol>
+
+<h4 id="task-2-create-an-azure-sql-database-by-using-the-azure-portal">Task 2: Create an Azure SQL database by using the Azure Portal</h4>
+
+<ol>
+  <li>
+    <p>In the navigation pane on the left side, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>Scroll-down, locate and select the <strong>SQL databases</strong> option.</p>
+  </li>
+  <li>
+    <p>At the top-left corner of the <strong>Sql databases</strong> blade, click the <strong>Add</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <strong>SQL Database</strong> blade that displays, locate the <strong>Database name</strong> field and provide the value <strong>db20532</strong>.</p>
+  </li>
+  <li>
+    <p>Locate the <strong>Resource group</strong> section, select the <strong>Create new</strong> option and then enter the value <strong>MOD04SQLD</strong> in the dialog box.</p>
+  </li>
+  <li>
+    <p>In the <strong>Select source</strong> list, select the value <strong>Blank database</strong>.</p>
+  </li>
+  <li>
+    <p>Click the <strong>Server</strong> option.</p>
+  </li>
+  <li>
+    <p>In the <strong>Server</strong> blade that displays, perform the following actions:</p>
+
+    <p>a. Click <strong>Create a new server</strong>.</p>
+
+    <p>a. In the <strong>New Server</strong> blade that displays, locate the <strong>Server Name</strong> field.</p>
+
+    <p>a. In the <strong>Server name</strong> field, type <strong>sv20532[<em>Your Name Here</em>]</strong>.</p>
+
+    <p>a. In the <strong>Server admin login</strong> field, type <strong>testuser</strong> as login.</p>
+
+    <p>a. In the <strong>Password</strong> field, type <strong>TestPa$$w0rd</strong> as password.</p>
+
+    <p>a. In the <strong>Confirm password</strong> field, type <strong>TestPa$$w0rd</strong>.</p>
+
+    <p>a. In the <strong>Location</strong> list, select the region that is closest to your location.</p>
+
+    <p>a. Click the <strong>Select</strong> button.</p>
+  </li>
+  <li>
+    <p>Back in the <strong>SQL database</strong> blade, click the <strong>Pricing Tier</strong> option.</p>
+  </li>
+  <li>
+    <p>In the <strong>Configure</strong> blade that displays, select the <strong>Basic</strong> option.</p>
+  </li>
+  <li>
+    <p>Click <strong>Apply</strong> to close the blade.</p>
+  </li>
+  <li>
+    <p>Back in the <strong>SQL database</strong> blade, click the <strong>Create</strong> button to create the SQL database and server.</p>
+  </li>
+  <li>
+    <p>Write down the server and database names for your new SQL Database instance.</p>
+  </li>
+</ol>
+
+<h3 id="task-3-configure-sql-server-firewall">Task 3: Configure SQL Server Firewall</h3>
+
+<ol>
+  <li>
+    <p>In the navigation pane on the left side, scroll down, and then click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>Scroll-down, locate and select the <strong>SQL databases</strong> option.</p>
+  </li>
+  <li>
+    <p>In the list of <strong>SQL Databases</strong>, select the SQL database named <strong>db20532</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>db20532 - SQL database</strong> blade, locate the <strong>Essentials</strong> panel.</p>
+  </li>
+  <li>
+    <p>Locate the <strong>Server name</strong> section and click on the associated hyperlink to navigate to the server blade.</p>
+  </li>
+  <li>
+    <p>In the <strong>SQL server</strong> blade, locate the <strong>Essentials</strong> panel.</p>
+  </li>
+  <li>
+    <p>Locate the <strong>Firewalls and virtual networks</strong> section and click on the associated hyperlink to navigate to manage firewall settings.</p>
+  </li>
+  <li>
+    <p>In the <strong>Firewalls and virtual networks</strong> blade, click the <strong>Add client IP</strong> button to add your virtual machine’s IP Address to the list of allowed IP Address ranges.</p>
+  </li>
+  <li>
+    <p>Click on <strong>Save</strong> at the top of the blade. Once saved, close the confirmation dialog by clicking the <strong>Ok</strong> button.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: It might take couple of minutes for the firewall changes to get updated on server.</p>
+    </blockquote>
+  </li>
+</ol>
+
+<blockquote>
+  <p><strong>Results</strong>: After completing this exercise, you will have created both servers and databases in the SQL Database service.</p>
+</blockquote>
+
+<h2 id="exercise-2-using-entity-framework-with-local-sql-server">Exercise 2: Using Entity Framework with Local SQL Server</h2>
+
+<h4 id="task-1-run-the-aspnet-web-application">Task 1: Run the ASP.NET web application</h4>
+
+<ol>
+  <li>
+    <p>On the Start screen, click the <strong>Desktop</strong> tile.</p>
+  </li>
+  <li>
+    <p>On the taskbar, click the <strong>File Explorer</strong> icon.</p>
+  </li>
+  <li>
+    <p>In the <em>This PC</em> window, go to <strong>Allfiles (F):\Mod04\Labfiles\Starter</strong>, and then double-click <strong>Contoso.Events.sln</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane, right-click the <strong>Contoso.Events.Web</strong> project, and then click <strong>Set as Startup Project</strong>.</p>
+  </li>
+  <li>
+    <p>On the <strong>Debug</strong> menu, click <strong>Start Debugging</strong>.</p>
+  </li>
+  <li>
+    <p>On the home page of the web application, verify that only ‘Upcoming Events’ show on the home page.</p>
+  </li>
+  <li>
+    <p>Close the browser window that is displaying the website.</p>
+  </li>
+</ol>
+
+<h4 id="task-2-configure-database-initialization-logic">Task 2: Configure Database Initialization Logic</h4>
+
+<ol>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane of the Contoso.Events - Microsoft Visual Studio window, expand the <strong>Contoso.Events.Data</strong> project.</p>
+  </li>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane, double-click <strong>ContextInitializer.cs</strong>.</p>
+  </li>
+  <li>
+    <p>Locate the <strong>InitializeAsync</strong> method:</p>
+
+    <pre><code> public async Task InitializeAsync(EventsContext eventsContext)
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>InitializeAsync</strong> method, add the following line of code to ensure the database is created:</p>
+
+    <pre><code> await eventsContext.Database.EnsureCreatedAsync();
+</code></pre>
+  </li>
+  <li>
+    <p>Add the following block of code to create a conditional <em>if</em> block that only executes the code within the block if there are no events in the database:</p>
+
+    <pre><code> if (!await eventsContext.Events.AnyAsync())
+ {
+ }
+</code></pre>
+  </li>
+  <li>
+    <p>Within the newly created <em>if</em> block, add the following line of code to create a new instance of the <strong>Event</strong> class:</p>
+
+    <pre><code> Event eventItem = new Event();
+</code></pre>
+  </li>
+  <li>
+    <p>Still within the <em>if</em> block, add the following block of code to set various properties of the new <strong>Event</strong> class instance:</p>
+
+    <pre><code> eventItem.EventKey = "FY17SepGeneralConference";
+ eventItem.StartTime = DateTime.Today;
+ eventItem.EndTime = DateTime.Today.AddDays(3d);
+ eventItem.Title = "FY17 September Technical Conference";
+ eventItem.Description = "Sed in euismod mi.";
+ eventItem.RegistrationCount = 1;
+</code></pre>
+  </li>
+  <li>
+    <p>Still within the <em>if</em> block, add the following line of code to add the new <strong>Event</strong> class instance to the <strong>Events</strong> property of type <strong>DbSet&lt;Event&gt;</strong>:</p>
+
+    <pre><code> eventsContext.Events.Add(eventItem);
+</code></pre>
+  </li>
+  <li>
+    <p>Outside of and after the <em>if</em> block, add the following line of code to save the changes to the database context:</p>
+
+    <pre><code> await eventsContext.SaveChangesAsync();
+</code></pre>
+  </li>
+  <li>
+    <p>Your <strong>InitializeAsync</strong> method should now look like this:</p>
+
+    <pre><code> public async Task InitializeAsync(EventsContext eventsContext)
+ {
+     await eventsContext.Database.EnsureCreatedAsync();
+
+     if (!await eventsContext.Events.AnyAsync())
+     {
+         Event eventItem = new Event();
+         eventItem.EventKey = "FY17SepGeneralConference";
+         eventItem.StartTime = DateTime.Today;
+         eventItem.EndTime = DateTime.Today.AddDays(3d);
+         eventItem.Title = "FY17 September Technical Conference";
+         eventItem.Description = "Sed in euismod mi.";
+         eventItem.RegistrationCount = 1;
+         eventsContext.Events.Add(eventItem);
+     }
+
+     await eventsContext.SaveChangesAsync();
+ }
+</code></pre>
+  </li>
+</ol>
+
+<h4 id="task-3-validate-database-initialization">Task 3: Validate Database Initialization</h4>
+
+<ol>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane, right-click the <strong>Contoso.Events.Web</strong> project, and then click <strong>Set as Startup Project</strong>.</p>
+  </li>
+  <li>
+    <p>On the <strong>Debug</strong> menu, click <strong>Start Debugging</strong>.</p>
+  </li>
+  <li>
+    <p>On the home page of the web application, you will see that no events are shown.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: We have not written the code to display events yet. We simply are running the web application to initialize and populate the database.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Close the browser window that is displaying the website.</p>
+  </li>
+  <li>
+    <p>Return to the open instance of <strong>Visual Studio</strong>.</p>
+  </li>
+  <li>
+    <p>In Visual Studio, open the <strong>View</strong> menu and then select the <strong>Server Explorer</strong> option.</p>
+  </li>
+  <li>
+    <p>Right click on <strong>Data Connections</strong> and click on <strong>Add Connection</strong>.</p>
+  </li>
+  <li>
+    <p>Choose <strong>Microsoft SQL Server</strong> for data source and click <strong>Continue</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Add Connection</strong> wizard, provide following values and click <strong>OK</strong>.</p>
+
+    <p>a. In the <strong>Server name</strong> field, type <strong>(localdb)\mssqllocaldb</strong>.</p>
+
+    <p>a. In the <strong>Authentication</strong> list, select <strong>Use Windows Authentication</strong>.</p>
+
+    <p>a. In the <strong>Select or enter a database name</strong> dropdown, select <strong>Contoso.Events.Mod04</strong>.</p>
+
+    <p>a. Click the <strong>OK</strong> button.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: If firewall rules are not updated on the server, you may have to wait a few more minutes before proceeding.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>On Visual Studio <strong>Server Explorer</strong>, expand <strong>Data Connections</strong> then the <strong>localdb</strong> node.</p>
+  </li>
+  <li>
+    <p>Right click the <strong>localdb</strong> node and select the <strong>New Query</strong> option.</p>
+  </li>
+  <li>
+    <p>In the <em>Query Editor</em> tab, enter the following SQL query:</p>
+
+    <pre><code> SELECT * FROM Events
+</code></pre>
+  </li>
+  <li>
+    <p>In Visual Studio, open the <strong>SQL</strong> menu and then select the <strong>Execute</strong> option.</p>
+  </li>
+  <li>
+    <p>Observe the results of the query.</p>
+  </li>
+  <li>
+    <p>In the <em>Query Editor</em> tab, replace the existing SQL query with the following SQL query:</p>
+
+    <pre><code> DROP TABLE Events
+</code></pre>
+  </li>
+  <li>
+    <p>In Visual Studio, open the <strong>SQL</strong> menu and then select the <strong>Execute</strong> option.</p>
+  </li>
+  <li>
+    <p>Wait for this query to finish executing.</p>
+  </li>
+  <li>
+    <p>Close the <em>Query Editor</em> tab.</p>
+  </li>
+</ol>
+
+<h4 id="task-4-update-database-initialization-logic">Task 4: Update Database Initialization Logic</h4>
+
+<ol>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane of the Contoso.Events - Microsoft Visual Studio window, expand the <strong>Contoso.Events.Data</strong> project.</p>
+  </li>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane, double-click <strong>ContextInitializer.cs</strong>.</p>
+  </li>
+  <li>
+    <p>Locate the <strong>InitializeAsync</strong> method:</p>
+
+    <pre><code> public async Task InitializeAsync(EventsContext eventsContext)
+</code></pre>
+  </li>
+  <li>
+    <p>Replace the method with the following method implementation:</p>
+
+    <pre><code> public async Task InitializeAsync(EventsContext eventsContext)
+ {
+     await eventsContext.Database.EnsureCreatedAsync();
+
+     if (!await eventsContext.Events.AnyAsync())
+     {
+         await eventsContext.Events.AddRangeAsync(
+             new List&lt;Event&gt;() 
+             {
+                 new Event { EventKey = "GeneralConferenceAlpha", StartTime = DateTime.Today, EndTime = DateTime.Today.AddDays(5d), Title = "First General Conference", Description = "Sed in euismod mi.", RegistrationCount = 15 },
+                 new Event { EventKey = "GeneralConferenceBravo", StartTime = DateTime.Today.AddDays(10d), EndTime = DateTime.Today.AddDays(15d), Title = "Second General Conference", Description = "Sed in euismod mi.", RegistrationCount = 20 },
+                 new Event { EventKey = "GeneralConferenceCharlie", StartTime = DateTime.Today.AddDays(20d), EndTime = DateTime.Today.AddDays(25d), Title = "Third General Conference", Description = "Sed in euismod mi.",  RegistrationCount = 5 },
+                 new Event { EventKey = "GeneralConferenceDelta", StartTime = DateTime.Today.AddDays(30d), EndTime = DateTime.Today.AddDays(35d), Title = "Fourth General Conference", Description = "Sed in euismod mi.", RegistrationCount = 25 },
+                 new Event { EventKey = "GeneralConferenceEcho", StartTime = DateTime.Today.AddDays(40d), EndTime = DateTime.Today.AddDays(45d), Title = "Fifth General Conference", Description = "Sed in euismod mi.", RegistrationCount = 10 },
+                 new Event { EventKey = "GeneralConferenceFoxtrot", StartTime = DateTime.Today.AddDays(50d), EndTime = DateTime.Today.AddDays(55d), Title = "Sixth General Conference", Description = "Sed in euismod mi.", RegistrationCount = 0 }
+             }
+         );
+
+         await eventsContext.SaveChangesAsync();
+     }
+ }
+</code></pre>
+  </li>
+</ol>
+
+<h4 id="task-5-write-entity-framework-queries-in-the-aspnet-mvc-controllers">Task 5: Write Entity Framework Queries in the ASP.NET MVC Controllers</h4>
+
+<ol>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane of the Contoso.Events - Microsoft Visual Studio window, expand the <strong>Contoso.Events.Web</strong> project.</p>
+  </li>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane, expand the <strong>Controllers</strong> folder.</p>
+  </li>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane, double-click <strong>HomeController.cs</strong>.</p>
+  </li>
+  <li>
+    <p>Locate the <strong>Index</strong> method:</p>
+
+    <pre><code> public IActionResult Index([FromServices] EventsContext eventsContext, [FromServices] IOptions&lt;ApplicationSettings&gt; appSettings)
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>Index</strong> method, locate the following line of code:</p>
+
+    <pre><code> var upcomingEvents = Enumerable.Empty&lt;Event&gt;();
+</code></pre>
+  </li>
+  <li>
+    <p>Replace that line of code with the following block of code to query the <strong>Events</strong> table, order the results by the <strong>StartTime</strong> property and then take a subset of results based on an application setting:</p>
+
+    <pre><code> var upcomingEvents = eventsContext.Events
+     .Where(e =&gt; e.StartTime &gt;= DateTime.Today)
+     .OrderBy(e =&gt; e.StartTime)
+     .Take(appSettings.Value.LatestEventCount);
+</code></pre>
+  </li>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane, double-click <strong>EventsController.cs</strong>.</p>
+  </li>
+  <li>
+    <p>Locate the <strong>Index</strong> method:</p>
+
+    <pre><code> public IActionResult Index([FromServices] EventsContext eventsContext, [FromServices] IOptions&lt;ApplicationSettings&gt; appSettings, int? page)
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>Index</strong> method, locate the following line of code:</p>
+
+    <pre><code> var pagedEvents = Enumerable.Empty&lt;Event&gt;();
+</code></pre>
+  </li>
+  <li>
+    <p>Replace that line of code with the following block of code to query the <strong>Events</strong> table, and use the <strong>Skip</strong> and <strong>Take</strong> methods to create a page of results based on the current page number:</p>
+
+    <pre><code> int currentPage = page ?? 1;
+ int totalRows = eventsContext.Events.Count();
+ int pageSize = appSettings.Value.GridPageSize;
+ var pagedEvents = eventsContext.Events
+     .OrderByDescending(e =&gt; e.StartTime)
+     .Skip(pageSize * (currentPage - 1))
+     .Take(pageSize);
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>Index</strong> method, locate the following block of code:</p>
+
+    <pre><code> EventsGridViewModel viewModel = new EventsGridViewModel
+ {
+     CurrentPage = 0,
+     PageSize = 0,
+     TotalRows = 0,
+     Events = pagedEvents
+ };	
+</code></pre>
+  </li>
+  <li>
+    <p>Replace that block of code with the following block of code to set various properties of the <strong>EventsGridViewModel</strong> class instance:</p>
+
+    <pre><code> EventsGridViewModel viewModel = new EventsGridViewModel
+ {
+     CurrentPage = currentPage,
+     PageSize = pageSize,
+     TotalRows = totalRows,
+     Events = pagedEvents
+ };
+</code></pre>
+  </li>
+  <li>
+    <p>Locate the <strong>Detail</strong> method:</p>
+
+    <pre><code> public IActionResult Detail([FromServices] EventsContext eventsContext, string key)
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>Detail</strong> method, locate the following line of code:</p>
+
+    <pre><code> var matchedEvent = default(Event);
+</code></pre>
+  </li>
+  <li>
+    <p>Replace that line of code with the following block of code to query the <strong>Events</strong> table for a single record that matches the <strong>EventKey</strong> property:</p>
+
+    <pre><code> var matchedEvent = eventsContext.Events
+     .SingleOrDefault(e =&gt; e.EventKey == key);
+</code></pre>
+  </li>
+</ol>
+
+<h4 id="task-6-run-the-aspnet-web-application-to-view-events-from-the-local-sql-database">Task 6: Run the ASP.NET Web Application to View Events from the Local SQL Database</h4>
+
+<ol>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane, right-click the <strong>Contoso.Events.Web</strong> project, and then click <strong>Set as Startup Project</strong>.</p>
+  </li>
+  <li>
+    <p>On the <strong>Debug</strong> menu, click <strong>Start Debugging</strong>.</p>
+  </li>
+  <li>
+    <p>On the home page of the web application, verify that it shows a list of multiple events.</p>
+  </li>
+  <li>
+    <p>Click the <strong>Events</strong> hyperlink at the top of the page.</p>
+  </li>
+  <li>
+    <p>Observe the grid of events.</p>
+  </li>
+  <li>
+    <p>Click the <em>“arrows pointing right”</em> at the bottom of the page to go to the next page of results.</p>
+  </li>
+  <li>
+    <p>Observe the results in the grid on the next page of results.</p>
+  </li>
+  <li>
+    <p>Click the <strong>Go to Event</strong> button for one of the event results.</p>
+  </li>
+  <li>
+    <p>Observe the event details displayed on the current page.</p>
+  </li>
+  <li>
+    <p>Close the browser window that is displaying the website.</p>
+  </li>
+</ol>
+
+<h2 id="exercise-3-using-entity-framework-with-azure-sql-database">Exercise 3: Using Entity Framework with Azure SQL Database</h2>
+
+<h4 id="task-1-create-a-production-settings-file">Task 1: Create a Production Settings File</h4>
+
+<ol>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane, expand the <strong>Contoso.Events.Web</strong> project.</p>
+  </li>
+  <li>
+    <p>Right-click the <strong>Contoso.Events.Web</strong> project, hover over the <strong>Add</strong> option and then select the <strong>New Item…</strong> option.</p>
+  </li>
+  <li>
+    <p>In the <strong>Add New Item</strong> dialog, perform the following actions:</p>
+
+    <p>a. Expand the <strong>ASP.NET Core</strong> category.</p>
+
+    <p>a. Select the <strong>Data</strong> option from the list of template categories.</p>
+
+    <p>a. Select the <strong>JSON File</strong> option from the list of templates.</p>
+
+    <p>a. In the <strong>Name</strong> dialog box, enter the value <strong>appsettings.Production.json</strong>.</p>
+
+    <p>a. Click the <strong>Add</strong> button.</p>
+  </li>
+  <li>
+    <p>In the code editor tab for the <strong>appsettings.Production.json</strong> file, replace the contents of the file with the following JSON object:</p>
+
+    <pre><code> {
+     "ConnectionStrings": {
+         "EventsContextConnectionString": ""
+     }
+ }
+</code></pre>
+  </li>
+  <li>
+    <p>Update the value of the <strong>EventsContextConnectionString</strong> property by adding a connection string to your database in Azure. Remove the placeholder string <code>[SQL Database Instance Name]</code> and replace it with the name of your <strong>SQL Server</strong> instance in Azure.</p>
+
+    <pre><code> Server=tcp:[SQL Database Instance Name].database.windows.net,1433;Initial Catalog=db20532;Persist Security Info=False;User ID=testuser;Password=TestPa$$w0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
+</code></pre>
+
+    <blockquote>
+      <p><strong>Note</strong>: The name of your server instance is typically in the following format: <code>sv20532[Your Name Here]</code>. Ensure that you remove the square brackets as you replace the placeholder.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Save the <strong>appsettings.Production.json</strong> file.</p>
+  </li>
+</ol>
+
+<h4 id="task-2-publish-the-web-application-with-updated-dbcontext-to-azure">Task 2: Publish the Web Application with Updated DbContext to Azure</h4>
+
+<ol>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane, right-click the <strong>Contoso.Events.Web</strong> project, and then click <strong>Publish</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Pick a publish target</strong> window, perform the following actions:</p>
+
+    <p>a. Click the <strong>App Service</strong> option.</p>
+
+    <p>a. Select the <strong>Create New</strong> radio button.</p>
+
+    <p>a. Click the <strong>Publish</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <strong>Create App Service</strong> dialog, perform the following actions:</p>
+
+    <p>a. In the <strong>App Name</strong> dialog box, keep the autogenerated value created by the tool.</p>
+
+    <p>a. In the <strong>Resource Group</strong> list, select the <strong>MOD04SQLD</strong> option.</p>
+
+    <p>a. In the <strong>Hosting Plan</strong> list, keep the autogenerated value created by the tool.</p>
+
+    <p>a. Click the <strong>Create</strong> button.</p>
+  </li>
+  <li>
+    <p>The publish process will start automatically. Wait for the publish process to complete.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: It typically takes five to ten minutes for the publish process to complete. You can track the progress of your publish in the Microsoft Azure Activity Log (<strong>View</strong> &gt; <strong>Other Windows</strong> &gt; <strong>Web Publish Activity</strong>) pane that displays when you publish your Web App project.</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h4 id="task-3-verify-that-the-azure-web-app-website-is-using-the-new-data">Task 3: Verify that the Azure Web App website is using the new data</h4>
+
+<ol>
+  <li>
+    <p>Wait for the publish process to complete and the console window to display the message <strong>Publish Succeeded</strong>.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: The publish process is complete when the message “<strong>Publish Succeeded”</strong> displays in the <strong>Web Publish Activity</strong> history console. The green circular indicator in the Activity Log does not indicate that the publish process is complete, but it indicates that the package is uploaded successfully.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>A browser tab will open automatically displaying the deployed web application.</p>
+  </li>
+  <li>
+    <p>Verify that the website displays the events that you created in your Entity Framework context initializer.</p>
+  </li>
+</ol>
+
+<h4 id="task-4-view-the-data-in-the-azure-sql-database">Task 4: View the data in the Azure SQL Database</h4>
+
+<ol>
+  <li>
+    <p>Return to the open instance of <strong>Visual Studio</strong>.</p>
+  </li>
+  <li>
+    <p>In Visual Studio, open the <strong>View</strong> menu and then select the <strong>Server Explorer</strong> option.</p>
+  </li>
+  <li>
+    <p><strong>Expand</strong> the <strong>Data Connections</strong> node.</p>
+  </li>
+  <li>
+    <p>Right click on <strong>Data Connections</strong> and click on <strong>Add Connection</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Add Connection</strong> wizard, provide following values and click <strong>OK</strong>.</p>
+
+    <p>a. In the <strong>server name</strong> field, type <strong>sv20532[your name].database.windows.net</strong>.</p>
+
+    <p>a. Select <strong>Use SQL Server Authentication</strong>.</p>
+
+    <p>a. In the <strong>Username</strong> field, type <strong>testuser</strong>.</p>
+
+    <p>a. In the <strong>Password</strong> field, type <strong>TestPa$$w0rd</strong>.</p>
+
+    <p>a. In the <strong>Select or enter a database name</strong> dropdown, select <strong>db20532</strong>.</p>
+
+    <p>a. Click the <strong>OK</strong> button.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: If firewall rules are not updated on the server, you may have to wait a few more minutes before proceeding.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>On Visual Studio <strong>Server Explorer</strong>, expand <strong>Data Connections</strong> then the <strong>sv20532[your name].db20532.dbo</strong> node and finally the <strong>Tables</strong> node.</p>
+  </li>
+  <li>
+    <p>Right click <strong>Tables</strong> and click <strong>Refresh</strong>.</p>
+  </li>
+  <li>
+    <p>Right click <strong>Events</strong> table, and then select <strong>Show Table Data</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>dbo.Events</strong> table, view the automatically generated records.</p>
+  </li>
+  <li>
+    <p>Close the <strong>Events</strong> table window.</p>
+  </li>
+  <li>
+    <p>Close the <strong>Internet Explorer</strong> application.</p>
+  </li>
+  <li>
+    <p>Close the <strong>Contoso.Events – Microsoft Visual Studio</strong> window.</p>
+  </li>
+</ol>
+
+<blockquote>
+  <p><strong>Results</strong>: After completing this exercise, you will have configured Entity Framework to initialize a new database with seed data.</p>
+</blockquote>
+
+<h2 id="exercise-4-cleanup-subscription">Exercise 4: Cleanup Subscription</h2>
+
+<h4 id="task-1-open-cloud-shell">Task 1: Open Cloud Shell</h4>
+
+<ol>
+  <li>
+    <p>At the top of the portal, click the <strong>Cloud Shell</strong> icon to open a new shell instance.</p>
+  </li>
+  <li>
+    <p>In the <strong>Cloud Shell</strong> command prompt at the bottom of the portal, type in the following command and press <strong>Enter</strong> to list all resource groups in the subscription:</p>
+
+    <pre><code> az group list
+</code></pre>
+  </li>
+  <li>
+    <p>Type in the following command and press <strong>Enter</strong> to view a list of possible CLI commands to <em>delete a Resource Group</em>:</p>
+
+    <pre><code> az group delete --help
+</code></pre>
+  </li>
+</ol>
+
+<h4 id="task-2-delete-resource-group">Task 2: Delete Resource Group</h4>
+
+<ol>
+  <li>
+    <p>Type in the following command and press <strong>Enter</strong> to delete the <strong>MOD04SQLD</strong> <em>Resource Group</em>:</p>
+
+    <pre><code> az group delete --name MOD04SQLD --no-wait --yes
+</code></pre>
+  </li>
+  <li>
+    <p>Close the <strong>Cloud Shell</strong> prompt at the bottom of the portal.</p>
+  </li>
+</ol>
+
+<h4 id="task-3-close-active-applications">Task 3: Close Active Applications</h4>
+
+<ol>
+  <li>
+    <p>Close the currently running web browser application.</p>
+  </li>
+  <li>
+    <p>Close the currently running <strong>Visual Studio</strong> application.</p>
+  </li>
+</ol>
+
+<blockquote>
+  <p><strong>Review</strong>: In this exercise, you “cleaned up your subscription” by removing the <strong>Resource Groups</strong> used in this lab.</p>
+</blockquote>
+
+            </article>
+        </main>
+    </div>
+    <footer class="fixed-bottom">
+        <nav class="navbar navbar-light bg-light d-flex justify-content-around">
+            <span class="navbar-text">
+                <i class="fa fa-github" aria-hidden="true"></i>
+                <a href="https://github.com/MicrosoftLearning/20532-DevelopingMicrosoftAzureSolutions" target="_blank" class="ml-2">
+                    MicrosoftLearning/20532-DevelopingMicrosoftAzureSolutions
+                </a>
+            </span>
+        </nav>
+    </footer>
+    <script src="../../../../../code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="../../../../../cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="../../../../../maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+        $(function() {
+            $('article img').each(function() {
+                var src = $(this).attr('src');
+                $(this).wrap('<a href="' + src + '" target="_blank"></a>');
+            });
+            $('article > h2').each(function() {
+                $('nav.toc > ul').append(
+                    $('<li>')
+                        .attr('class', 'nav-item')
+                        .append(
+                            $('<a>')
+                                .attr('class', 'nav-link')
+                                .text($(this).text())
+                                .attr('href', '#' + $(this).attr('id'))
+                        ) 
+                );
+            });
+            $('[data-spy="scroll"]').each(function () {
+                var $spy = $(this).scrollspy('refresh')
+            });
+        });
+    </script>
+</body>
+
+
+<!-- Mirrored from microsoftlearning.github.io/20532-DevelopingMicrosoftAzureSolutions/Instructions/Labs/Mod04/LAB_AK_04.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Feb 2020 04:43:06 GMT -->
+</html>

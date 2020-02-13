@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+    
+<!-- Mirrored from microsoftlearning.github.io/20532-DevelopingMicrosoftAzureSolutions/Instructions/Labs/Mod11/LAB_AK_11.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Feb 2020 04:43:07 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+        <title>
+            20532: Developing Microsoft Azure Solutions - Module 11: Securing Azure Web Applications
+        </title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="../../../../../maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="../../../../../maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link rel="stylesheet" href="../../../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs.min.css">
+        <script src="../../../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+        <link rel="stylesheet" href="../../../assets/css/style3a94.css?v=d86f0e41cbfc727fd1aa5c93305bbd3184d0b042">
+    </head>
+    <body data-spy="scroll" data-target="#linksMenu">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+        <div class="container d-flex justify-content-between">
+            <a class="my-1 title text-azure text-uppercase" href="http://microsoftlearning.github.io/20532-DevelopingMicrosoftAzureSolutions">
+                20532: Developing Microsoft Azure Solutions
+            </a>
+            <a href="https://github.com/MicrosoftLearning/20532-DevelopingMicrosoftAzureSolutions" target="_blank" class="btn btn-sm btn-outline-secondary text-light">
+                <i class="fa fa-github" aria-hidden="true"></i>
+                <span class="ml-2">GitHub</span>
+            </a>
+        </div>
+    </nav>
+    <div class="container">
+        <main class="row extra-padding">
+            <aside class="col-sm-2">       
+                <nav id="linksMenu" class="toc sticky-top">
+                    <ul class="nav navbar-nav flex-column">
+                    </ul>
+                </nav>         
+            </aside>
+            <hr class="" />
+            <article class="col-sm-10 mb-5">
+                <h1 id="module-11-securing-azure-web-applications">Module 11: Securing Azure Web Applications</h1>
+
+<h1 id="lab-integrating-azure-active-directory-with-the-events-administration-portal">Lab: Integrating Azure Active Directory with the Events Administration Portal</h1>
+
+<h2 id="exercise-1-creating-an-azure-ad-directory">Exercise 1: Creating an Azure AD Directory</h2>
+
+<h4 id="task-1-sign-in-to-the-azure-portal">Task 1: Sign in to the Azure Portal</h4>
+
+<ol>
+  <li>
+    <p>On the Start screen, click the <strong>Internet Explorer</strong> tile.</p>
+  </li>
+  <li>
+    <p>Go to <em>(<a href="https://portal.azure.com/">https://portal.azure.com</a>)</em>.</p>
+  </li>
+  <li>
+    <p>In the email address box, type the email address of your Microsoft account.</p>
+  </li>
+  <li>
+    <p>In the password box, type the password for your Microsoft account.</p>
+  </li>
+  <li>
+    <p>Click <strong>Sign In</strong>.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: If this is your first time logging in to the Portal, you may be prompted with a “Welcome” dialog. You can safely close this dialog and continue.</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h4 id="task-2-creating-an-azure-active-directory-instance">Task 2: Creating an Azure Active Directory Instance</h4>
+
+<ol>
+  <li>
+    <p>At the top of the Azure Portal, click the <strong>Directory and Subscription filter</strong> button. This button typically appears with a book icon.</p>
+  </li>
+  <li>
+    <p>Observe the value printed out next to the <strong>Current directory</strong> text. This directory is known as your <strong>default directory</strong> in Azure. Record this value as you will need to switch back to this directory later in this lab.</p>
+  </li>
+  <li>
+    <p>In the navigation pane on the left side of the portal, click the <strong>Create a resource</strong> link.</p>
+  </li>
+  <li>
+    <p>At the top of the <strong>New</strong> blade, locate the <strong>Search the Marketplace</strong> field.</p>
+  </li>
+  <li>
+    <p>Enter the text <strong>Active Directory</strong> into the search field and press <strong>Enter</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Everything</strong> search results blade, select the <strong>Azure Active Directory</strong> result.</p>
+  </li>
+  <li>
+    <p>In the <strong>Azure Active Directory</strong> blade, click the <strong>Create</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <em>Create directory</em> blade, perform the following actions:</p>
+
+    <p>a. In the <strong>Organization name</strong> field, enter the name <em>Contoso Events</em>.</p>
+
+    <p>a. In the <strong>Initial domain name</strong> field.</p>
+
+    <p>a. In the <strong>Country or region</strong> list, select the region closest to your location.</p>
+
+    <p>a. Click the <strong>Create</strong> button.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: Wait for Azure to finish creating the Azure Active Directory instance prior to moving forward with the lab. You will receive a notification when the <em>Azure AD directory</em> is created.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Once the directory is created, the <em>Create directory</em> blade will have a button (usually with the text <em>click here</em>) to switch to the new directory.</p>
+  </li>
+  <li>
+    <p>The portal will reload within the context of the <strong>Contoso Events</strong> directory. The blade for the Azure Active Directory instance will automatically open.</p>
+  </li>
+</ol>
+
+<h4 id="task-3-switch-back-to-your-primary-directory">Task 3: Switch Back to Your Primary Directory</h4>
+
+<ol>
+  <li>
+    <p>At the top of the Azure Portal, click the <strong>Directory and Subscription filter</strong> button. This button typically appears with a book icon.</p>
+  </li>
+  <li>
+    <p>In the <strong>Directory + subscription</strong> popup that apepars, select the default directory created with your Azure subscription.</p>
+  </li>
+</ol>
+
+<h4 id="task-4-populate-the-directory-with-an-example-user">Task 4: Populate the Directory With An Example User</h4>
+
+<blockquote>
+  <p><strong>Note</strong>: If you created your Azure subscription using an organizational identity. You will likely not have access to create new users in your directory. You can safely skip this task and use your own identity in the remaining exercises.</p>
+</blockquote>
+
+<ol>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>Azure Active Directory</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Azure Active Directory</strong> blade, locate the <strong>Manage</strong> section on the left-side of the blade and click the <strong>Users</strong> link.</p>
+  </li>
+  <li>
+    <p>In the <strong>Users - All users</strong> pane, observe that your currently logged in account was automatically added to the directory as an administrator.</p>
+  </li>
+  <li>
+    <p>Click the <strong>New user</strong> button at the top of the pane.</p>
+  </li>
+  <li>
+    <p>In the <strong>User</strong> blade, perform the following actions:</p>
+
+    <p>a. In the <strong>Name</strong> field, enter the value <strong>Example Person</strong>.</p>
+
+    <p>a. In the <strong>User name</strong> field, enter the value <strong>exampleperson@[your domain]</strong>. Make sure you use the domain for your default Azure Active Directory instance. For example, if your default domain was <code>contoso.onmicrosoft.com</code>, the value for this field would be <code>exampleperson@contoso.onmicrosoft.com</code>. Record this username as you will need it to login to your application later in this lab.</p>
+
+    <p>a. Ensure the checkbox for the <strong>Show Password</strong> option is selected.</p>
+
+    <p>a. Copy the value of the <strong>Password</strong> field. You will need this temporary password to login to your application later in this lab.</p>
+
+    <p>a. Click the <strong>Create</strong> button to create the new user and temporary password.</p>
+  </li>
+</ol>
+
+<h2 id="exercise-2-securing-an-existing-aspnet-web-application">Exercise 2: Securing an Existing ASP.NET Web Application</h2>
+
+<h4 id="task-1-deploying-the-contoso-events-solution-using-arm">Task 1: Deploying the Contoso Events Solution using ARM</h4>
+
+<ol>
+  <li>
+    <p>On the left side of the portal, click the <strong>+ Create a resource</strong> link.</p>
+  </li>
+  <li>
+    <p>At the top of the <strong>New</strong> blade, locate the <strong>Search the Marketplace</strong> field.</p>
+  </li>
+  <li>
+    <p>Enter the text <strong>Template Deployment</strong> into the search field and press <strong>Enter</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Everything</strong> search results blade, select the <strong>Template deployment</strong> result.</p>
+  </li>
+  <li>
+    <p>In the <strong>Template deployment</strong> blade, click the <strong>Create</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <strong>Custom deployment</strong> blade, click the <em>Build your own template in the editor</em> link.</p>
+  </li>
+  <li>
+    <p>In the <strong>Edit template</strong> blade, locate the text editor and delete the existing template content.</p>
+  </li>
+  <li>
+    <p>In the <strong>Edit template</strong> blade, click the <strong>Load file</strong> link.</p>
+  </li>
+  <li>
+    <p>In the <strong>Open</strong> file dialog that appears, navigate to the <strong>Allfiles (F):\Mod11\Labfiles\Starter</strong> folder.</p>
+  </li>
+  <li>
+    <p>Select the <strong>azuredeploy.json</strong> file.</p>
+  </li>
+  <li>
+    <p>Click the <strong>Open</strong> button.</p>
+  </li>
+  <li>
+    <p>Back in the <strong>Edit template</strong> blade, click the <strong>Save</strong> button to persist the template.</p>
+  </li>
+  <li>
+    <p>Back in the <strong>Custom deployment</strong> blade, perform the following actions:</p>
+
+    <p>a. Leave the <strong>Subscription</strong> field set to it’s default value.</p>
+
+    <p>a. In the <strong>Resource group</strong> section, select the <strong>Create new</strong> option.</p>
+
+    <p>a. In the <strong>Resource group</strong> section, locate the list and select the value <strong>MOD11AZAD</strong> option.</p>
+
+    <p>a. Leave the remaining fields in the <strong>SETTINGS</strong> section set to their default values.</p>
+
+    <p>a. In the <strong>Terms and Conditions</strong> section, select the <em>I agree to the terms and conditions stated above</em> checkbox.</p>
+
+    <p>a. Click the <strong>Purchase</strong> button.</p>
+  </li>
+  <li>
+    <p>Wait for the creation task to complete before moving on with this lab.</p>
+  </li>
+</ol>
+
+<h4 id="task-2-enabling-azure-ad-integration-with-azure-app-service">Task 2: Enabling Azure AD Integration with Azure App Service</h4>
+
+<ol>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>Resource groups</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Resource groups</strong> blade that displays, click the <strong>MOD11AZAD</strong> resource group.</p>
+  </li>
+  <li>
+    <p>In the <strong>MOD11AZAD</strong> blade, locate and click the <strong>Web App</strong> resource that has a prefix of <strong>webm</strong>.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: There is another <strong>Web App</strong> instance with a prefix of <strong>webp</strong> and a <strong>Function App</strong> instance with a prefix of <strong>func</strong>.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>In the <strong>Web App</strong> blade, click the <strong>Browse</strong> button.</p>
+  </li>
+  <li>
+    <p>Observe that the application loads successfully.</p>
+  </li>
+  <li>
+    <p>Return to the Azure Portal browser tab/window.</p>
+  </li>
+  <li>
+    <p>Back in the <strong>Web App</strong> blade, locate the <strong>Settings</strong> section on the left-side of the blade and click the <strong>Authentication / Authorization</strong> link.</p>
+  </li>
+  <li>
+    <p>In the <strong>Authentication / Authorization</strong> pane, perform the following actions:</p>
+
+    <p>a. In the <strong>App Service Authentication</strong> section, select the <strong>On</strong> option.</p>
+
+    <p>a. In the <strong>Action to take when request is not authenticated</strong> list, select the <strong>Log in with Azure Active Directory</strong> option.</p>
+
+    <p>a. Click the <strong>Azure Active Directory</strong> list item in the <strong>Authentication Providers</strong> section.</p>
+  </li>
+  <li>
+    <p>In the <strong>Azure Active Directory Settings</strong> blade, perform the following actions:</p>
+
+    <p>a. In the top <strong>Management Mode</strong> section, select the <strong>Express</strong> option.</p>
+
+    <p>a. In the second <strong>Management mode</strong> section that appears, select the <strong>Create New AD App</strong> option.</p>
+
+    <p>a. In the <strong>Create App</strong> field, enter the value <strong>contosoevents[Your Name Here]</strong>.</p>
+
+    <p>a. In the <strong>Grant Common Data Services Permissions</strong> section, select the <strong>Off</strong> option.</p>
+
+    <p>a. Click the <strong>OK</strong> button.</p>
+  </li>
+  <li>
+    <p>Back in the <strong>Authentication / Authorization</strong> pane, click the <strong>Save</strong> button.</p>
+  </li>
+</ol>
+
+<h4 id="task-3-validate-azure-ad-security">Task 3: Validate Azure AD Security</h4>
+
+<ol>
+  <li>
+    <p>On the left-side of the blade, locate and click the <strong>Overview</strong> link.</p>
+  </li>
+  <li>
+    <p>Click the <strong>Browse</strong> button at the top of the blade.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: First, you will be prompted to login using an account in your default directory. You can login using the same account you used to login to the portal or the <strong>Example Person</strong> account you created earlier.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>In the email address box, type the email address of your Microsoft account.</p>
+  </li>
+  <li>
+    <p>In the password box, type the password for your Microsoft account.</p>
+  </li>
+  <li>
+    <p>Click <strong>Sign In</strong>.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: You will now see a prompt asking if you authorize the <strong>contosoevents[Your Name Here]</strong> application in Azure Active Directory to have specific permissions on your behalf.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Click the <strong>Accept</strong> button.</p>
+  </li>
+  <li>
+    <p>Observe that the web application has remain unchanged but it is now secure.</p>
+  </li>
+</ol>
+
+<h2 id="exercise-3-cleanup-subscription">Exercise 3: Cleanup Subscription</h2>
+
+<h4 id="task-1-open-cloud-shell">Task 1: Open Cloud Shell</h4>
+
+<ol>
+  <li>
+    <p>At the top of the portal, click the <strong>Cloud Shell</strong> icon to open a new shell instance.</p>
+  </li>
+  <li>
+    <p>In the <strong>Cloud Shell</strong> command prompt at the bottom of the portal, type in the following command and press <strong>Enter</strong> to list all resource groups in the subscription:</p>
+
+    <pre><code> az group list
+</code></pre>
+  </li>
+  <li>
+    <p>Type in the following command and press <strong>Enter</strong> to view a list of possible CLI commands to <em>delete a Resource Group</em>:</p>
+
+    <pre><code> az group delete --help
+</code></pre>
+  </li>
+</ol>
+
+<h4 id="task-2-delete-resource-group">Task 2: Delete Resource Group</h4>
+
+<ol>
+  <li>
+    <p>Type in the following command and press <strong>Enter</strong> to delete the <strong>MOD10MNUL</strong> <em>Resource Group</em>:</p>
+
+    <pre><code> az group delete --name MOD11AZAD --no-wait --yes
+</code></pre>
+  </li>
+  <li>
+    <p>Close the <strong>Cloud Shell</strong> prompt at the bottom of the portal.</p>
+  </li>
+</ol>
+
+<h4 id="task-3-close-active-applications">Task 3: Close Active Applications</h4>
+
+<ol>
+  <li>
+    <p>Close the currently running web browser application.</p>
+  </li>
+  <li>
+    <p>Close the currently running <strong>Visual Studio</strong> application.</p>
+  </li>
+</ol>
+
+<blockquote>
+  <p><strong>Review</strong>: In this exercise, you “cleaned up your subscription” by removing the <strong>Resource Groups</strong> used in this lab.</p>
+</blockquote>
+
+            </article>
+        </main>
+    </div>
+    <footer class="fixed-bottom">
+        <nav class="navbar navbar-light bg-light d-flex justify-content-around">
+            <span class="navbar-text">
+                <i class="fa fa-github" aria-hidden="true"></i>
+                <a href="https://github.com/MicrosoftLearning/20532-DevelopingMicrosoftAzureSolutions" target="_blank" class="ml-2">
+                    MicrosoftLearning/20532-DevelopingMicrosoftAzureSolutions
+                </a>
+            </span>
+        </nav>
+    </footer>
+    <script src="../../../../../code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="../../../../../cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="../../../../../maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+        $(function() {
+            $('article img').each(function() {
+                var src = $(this).attr('src');
+                $(this).wrap('<a href="' + src + '" target="_blank"></a>');
+            });
+            $('article > h2').each(function() {
+                $('nav.toc > ul').append(
+                    $('<li>')
+                        .attr('class', 'nav-item')
+                        .append(
+                            $('<a>')
+                                .attr('class', 'nav-link')
+                                .text($(this).text())
+                                .attr('href', '#' + $(this).attr('id'))
+                        ) 
+                );
+            });
+            $('[data-spy="scroll"]').each(function () {
+                var $spy = $(this).scrollspy('refresh')
+            });
+        });
+    </script>
+</body>
+
+
+<!-- Mirrored from microsoftlearning.github.io/20532-DevelopingMicrosoftAzureSolutions/Instructions/Labs/Mod11/LAB_AK_11.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Feb 2020 04:43:07 GMT -->
+</html>

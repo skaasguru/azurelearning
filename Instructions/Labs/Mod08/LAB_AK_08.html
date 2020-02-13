@@ -1,0 +1,999 @@
+<!doctype html>
+<html lang="en">
+    
+<!-- Mirrored from microsoftlearning.github.io/20532-DevelopingMicrosoftAzureSolutions/Instructions/Labs/Mod08/LAB_AK_08.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Feb 2020 04:43:06 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+        <title>
+            20532: Developing Microsoft Azure Solutions - Module 8: Designing a Communication Strategy by Using Queues and Service Bus
+        </title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="../../../../../maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="../../../../../maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link rel="stylesheet" href="../../../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs.min.css">
+        <script src="../../../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+        <link rel="stylesheet" href="../../../assets/css/style3a94.css?v=d86f0e41cbfc727fd1aa5c93305bbd3184d0b042">
+    </head>
+    <body data-spy="scroll" data-target="#linksMenu">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+        <div class="container d-flex justify-content-between">
+            <a class="my-1 title text-azure text-uppercase" href="http://microsoftlearning.github.io/20532-DevelopingMicrosoftAzureSolutions">
+                20532: Developing Microsoft Azure Solutions
+            </a>
+            <a href="https://github.com/MicrosoftLearning/20532-DevelopingMicrosoftAzureSolutions" target="_blank" class="btn btn-sm btn-outline-secondary text-light">
+                <i class="fa fa-github" aria-hidden="true"></i>
+                <span class="ml-2">GitHub</span>
+            </a>
+        </div>
+    </nav>
+    <div class="container">
+        <main class="row extra-padding">
+            <aside class="col-sm-2">       
+                <nav id="linksMenu" class="toc sticky-top">
+                    <ul class="nav navbar-nav flex-column">
+                    </ul>
+                </nav>         
+            </aside>
+            <hr class="" />
+            <article class="col-sm-10 mb-5">
+                <h1 id="module-8-designing-a-communication-strategy-by-using-queues-and-service-bus">Module 8: Designing a Communication Strategy by Using Queues and Service Bus</h1>
+
+<h1 id="lab-using-queues-and-service-bus-to-manage-communication-between-web-applications-in-azure">Lab: Using Queues and Service Bus to Manage Communication Between Web Applications in Azure</h1>
+
+<h2 id="exercise-1-creating-an-azure-service-bus-namespace">Exercise 1: Creating an Azure Service Bus Namespace</h2>
+
+<h4 id="task-1-sign-in-to-the-azure-portal">Task 1: Sign in to the Azure Portal</h4>
+
+<ol>
+  <li>
+    <p>On the Start screen, click the <strong>Internet Explorer</strong> tile.</p>
+  </li>
+  <li>
+    <p>Go to <em>(<a href="https://portal.azure.com/">https://portal.azure.com</a>)</em>.</p>
+  </li>
+  <li>
+    <p>In the email address box, type the email address of your Microsoft account.</p>
+  </li>
+  <li>
+    <p>Click <strong>Next</strong>.</p>
+  </li>
+  <li>
+    <p>In the password box, type the password for your Microsoft account.</p>
+  </li>
+  <li>
+    <p>Click <strong>Sign In</strong>.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: If this is your first time logging in to the Portal, you may be prompted with a “Welcome” dialog. You can safely close this dialog and continue.</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h4 id="task-2-create-service-bus-namespace">Task 2: Create Service Bus Namespace</h4>
+
+<ol>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>Service Bus</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Service Bus</strong> blade that displays, view your list of Service Bus namespaces.</p>
+  </li>
+  <li>
+    <p>At the top of the <strong>Service Bus</strong> blade, click the <strong>Add</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <strong>Create namespace</strong> blade that displays, perform the following steps:</p>
+
+    <p>a. In the <strong>Name</strong> field, provide the value <strong>bus20532[your name in lowercase here]</strong>.</p>
+
+    <p>a. Click the <strong>Pricing Tier</strong> link.</p>
+
+    <p>a. In the <strong>Choose your pricing tier</strong> blade, select the <strong>Basic</strong> option.</p>
+
+    <p>a. Click the <strong>Select</strong> button.</p>
+
+    <p>a. Back in the <strong>Create namespace</strong> blade, locate the <strong>Resource group</strong> section. In the <strong>Resource group</strong> section, select the <strong>Create new</strong> option.</p>
+
+    <p>a. In the <strong>Resource group</strong> section, locate the dialog box and enter the value <strong>MOD08QBUS</strong>.</p>
+
+    <p>a. In the <strong>Location</strong> list, select the region that is closest to your location.</p>
+
+    <p>a. Click the <strong>Create</strong> button.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: Wait for Azure to finish creating the Service Bus namespace prior to moving forward with the lab. You will receive a notification when the <em>Service Bus Namespace</em> is created.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>Service Bus</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Service Bus</strong> blade that displays, select the Service Bus namespace instance that has a prefix of <strong>bus20532</strong>.</p>
+  </li>
+  <li>
+    <p>In the <em>Service Bus Namespace</em> blade, locate the <strong>Settings</strong> section on the left-side of the blade and click the <strong>Shared access policies</strong> link.</p>
+  </li>
+  <li>
+    <p>In the <strong>Shared access policies</strong> pane, click the <strong>Add</strong> button at the top of the pane.</p>
+  </li>
+  <li>
+    <p>In the <strong>Add SAS Policy</strong> popup that appears, perform the following actions:</p>
+
+    <p>a. In the <strong>Policy name</strong> field, enter the value <strong>ReadWriteOnly</strong>.</p>
+
+    <p>a. Ensure the checkbox for the <strong>Send</strong> option is selected.</p>
+
+    <p>a. Ensure the checkbox for the <strong>Listen</strong> option is selected.</p>
+
+    <p>a. Click the <strong>Create</strong> button to create the new policy.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: Wait for Azure to finish creating the policy prior to moving forward with the lab. You will receive a notification when the <em>policy</em> is created.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Back in the <strong>Shared access policies</strong> pane, click the newly created <strong>ReadWriteOnly</strong> policy.</p>
+  </li>
+  <li>
+    <p>In the <strong>SAS Policy</strong> popup that appears, record the value of the <strong>Primary Connection String</strong> field. You will use this value later in this lab.</p>
+  </li>
+  <li>
+    <p>Close the <strong>SAS Policy</strong> popup.</p>
+  </li>
+  <li>
+    <p>In the <em>Service Bus Namespace</em> blade, locate the <strong>Entities</strong> section on the left-side of the blade and click the <strong>Queues</strong> link.</p>
+  </li>
+  <li>
+    <p>In the <strong>Queues</strong> pane, click the <strong>+ Queue</strong> button at the top of the pane.</p>
+  </li>
+  <li>
+    <p>In the <strong>Create queue</strong> popup that appears, perform the following actions:</p>
+
+    <p>a. In the <strong>Name</strong> field, enter the value <em>documentqueue</em>.</p>
+
+    <p>a. Click the <strong>Create</strong> button to create the new policy.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: Wait for Azure to finish creating the queue prior to moving forward with the lab. You will receive a notification when the <em>queue</em> is created.</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h4 id="task-3-create-other-azure-assets">Task 3: Create Other Azure Assets</h4>
+
+<ol>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>Storage Accounts</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Storage accounts</strong> blade that displays, view your list of Storage instances.</p>
+  </li>
+  <li>
+    <p>At the top of the <strong>Storage accounts</strong> blade, click the <strong>Add</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <strong>Create storage account</strong> blade that displays, perform the following steps:</p>
+
+    <p>a. In the <strong>Name</strong> field, provide the value <strong>star20532[your name in lowercase here]</strong>.</p>
+
+    <p>a. In the <strong>Deployment model</strong> section, ensure that the <em>Resource manager</em> option is selected.</p>
+
+    <p>a. In the <strong>Account kind</strong> list, ensure that the <em>StorageV2 (general purpose v2)</em> option is selected.</p>
+
+    <p>a. In the <strong>Location</strong> list, select the region closest to your current location.</p>
+
+    <p>a. Click on the <strong>Replication</strong> list and select the <strong>Locally-redundant storage (LRS)</strong> option.</p>
+
+    <p>a. In the <strong>Performance</strong> section, ensure that the <em>Standard</em> option is selected.</p>
+
+    <p>a. In the <strong>Access tier</strong> section, ensure that the <em>Hot</em> option is selected.</p>
+
+    <p>a. In the <strong>Secure transfer required</strong> section, ensure that the <em>Enabled</em> option is selected.</p>
+
+    <p>a. In the <strong>Resource group</strong> section, select the <strong>Use Existing</strong> option.</p>
+
+    <p>a. In the <strong>Resource group</strong> section, locate the dialog box and enter the value <strong>MOD08QBUS</strong>.</p>
+
+    <p>a. In the <strong>Virtual networks</strong> section, ensure that the <em>Disabled</em> option is selected.</p>
+
+    <p>a. Click the <strong>Create</strong> button.</p>
+  </li>
+</ol>
+
+<blockquote>
+  <p><strong>Note</strong>: Wait for Azure to finish creating the storage account prior to moving forward with the lab. You will receive a notification when the <em>Storage Account</em> is created.</p>
+</blockquote>
+
+<ol>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>Storage Accounts</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Storage accounts</strong> blade that displays, select the Storage account instance that has a prefix of <strong>star20532</strong>.</p>
+  </li>
+  <li>
+    <p>In the <em>Storage account</em> blade, locate the <strong>Settings</strong> section on the left-side of the blade and click the <strong>Access keys</strong> link.</p>
+  </li>
+  <li>
+    <p>In the <strong>Keys</strong> pane, select any one of the keys and record the value in the <strong>Connection string</strong> field. You will use this value later in this lab.</p>
+  </li>
+  <li>
+    <p>In the navigation pane on the left side, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>SQL databases</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>SQL databases</strong> blade that displays, view your list of SQL databases.</p>
+  </li>
+  <li>
+    <p>At the top of the <strong>SQL databases</strong> blade, click the <strong>Add</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <em>SQL database</em> blade that displays, locate the <strong>Database name</strong> field and provide the value <strong>db20532</strong>.</p>
+  </li>
+  <li>
+    <p>Locate the <strong>Resource group</strong> section, select the <strong>Use existing</strong> option and then select the option <strong>MOD08QBUS</strong> from the list.</p>
+  </li>
+  <li>
+    <p>In the <strong>Select source</strong> list, select the value <strong>Blank database</strong>.</p>
+  </li>
+  <li>
+    <p>Click the <strong>Server</strong> option.</p>
+  </li>
+  <li>
+    <p>In the <strong>Server</strong> blade that displays, perform the following actions:</p>
+
+    <p>a. Click <strong>Create a new server</strong>.</p>
+
+    <p>a. In the <strong>New Server</strong> blade that displays, locate the <strong>Server Name</strong> field.</p>
+
+    <p>a. In the <strong>Server name</strong> field, type <strong>sv20532[<em>Your Name Here</em>]</strong>.</p>
+
+    <p>a. In the <strong>Server admin login</strong> field, type <strong>testuser</strong> as login.</p>
+
+    <p>a. In the <strong>Password</strong> field, type <strong>TestPa$$w0rd</strong> as password.</p>
+
+    <p>a. In the <strong>Confirm password</strong> field, type <strong>TestPa$$w0rd</strong>.</p>
+
+    <p>a. In the <strong>Location</strong> list, select the region that is closest to your location.</p>
+
+    <p>a. Click the <strong>Select</strong> button.</p>
+  </li>
+  <li>
+    <p>Back in the <strong>SQL database</strong> blade, click the <strong>Pricing Tier</strong> option.</p>
+  </li>
+  <li>
+    <p>In the <strong>Resource Configuration &amp; Pricing</strong> blade that displays, select the <strong>Basic</strong> option.</p>
+  </li>
+  <li>
+    <p>Click <strong>Apply</strong> to close the blade.</p>
+  </li>
+  <li>
+    <p>Back in the <strong>SQL database</strong> blade, click the <strong>Create</strong> button to create the SQL database and server.</p>
+  </li>
+</ol>
+
+<blockquote>
+  <p><strong>Note</strong>: Wait for Azure to finish creating the SQL Database instance prior to moving forward with the lab. You will receive a notification when the <em>SQL Database</em> is created.</p>
+</blockquote>
+
+<ol>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>SQL Database</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>SQL Database</strong> blade that displays, select the SQL database instance named <strong>db20532</strong>.</p>
+  </li>
+  <li>
+    <p>In the <em>SQL database</em> blade, locate the <strong>Settings</strong> section on the left-side of the blade and click the <strong>Connection strings</strong> link.</p>
+  </li>
+  <li>
+    <p>In the <strong>Connection strings</strong> pane, copy the value of the <strong>ADO.NET</strong> connection string. Be sure to replace the placeholder values for <code>{your_username}</code> and <code>{your_password}</code> with the values <strong>testuser</strong> and <strong>TestPa$$w0rd</strong> respectively.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: For example, if your copied connection string is <code>Server=tcp:sv20532microsoft.database.windows.net,1433;Initial Catalog=db20532;Persist Security Info=False;User ID={your_username};Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;</code>, your updated connection string would be <code>Server=tcp:sv20532microsoft.database.windows.net,1433;Initial Catalog=db20532;Persist Security Info=False;User ID=testuser;Password=TestPa$$w0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;</code></p>
+    </blockquote>
+  </li>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>SQL servers</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>SQL servers</strong> blade that displays, select the SQL database instance that has a prefix of <strong>sv20532</strong>.</p>
+  </li>
+  <li>
+    <p>In the <em>SQL server</em> blade, locate the <strong>Security</strong> section on the left-side of the blade and click the <strong>Firewalls and virtual networks</strong> link.</p>
+  </li>
+  <li>
+    <p>In the <strong>Firewalls and virtual networks</strong> pane, click the <strong>Add client IP</strong> button to add your virtual machine’s IP Address to the list of allowed IP Address ranges.</p>
+  </li>
+  <li>
+    <p>Click on <strong>Save</strong> at the top of the blade. Once saved, close the confirmation dialog by clicking the <strong>Ok</strong> button.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: It might take couple of minutes for the firewall changes to get updated on server.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>Azure Cosmos DB</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Azure Cosmos DB</strong> blade that displays, view your list of Storage instances.</p>
+  </li>
+  <li>
+    <p>At the top of the <strong>Azure Cosmos DB</strong> blade, click the <strong>Add</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <strong>New account</strong> blade that displays, perform the following steps:</p>
+
+    <p>a. In the <strong>ID</strong> field, provide the value <strong>nosql20532[your name in lowercase here]</strong>.</p>
+
+    <p>a. In the <strong>API</strong> list, select the <strong>SQL</strong> option.</p>
+
+    <p>a. In the <strong>Resource group</strong> section, select the <strong>Use existing</strong> option.</p>
+
+    <p>a. In the <strong>Resource group</strong> section, select the value <strong>MOD08QBUS</strong> from the list.</p>
+
+    <p>a. In the <strong>Location</strong> list, select the region closest to your current location.</p>
+
+    <p>a. Ensure that the <em>Enable geo-redundancy</em> checkbox is un-selected.</p>
+
+    <p>a. In the <strong>Virtual networks</strong> section, ensure that the <em>Disabled</em> option is selected.</p>
+
+    <p>a. Click the <strong>Create</strong> button.</p>
+  </li>
+</ol>
+
+<blockquote>
+  <p><strong>Note</strong>: Wait for Azure to finish creating the Azure Cosmos DB account prior to moving forward with the lab. You will receive a notification when the <em>Azure Cosmos DB account</em> is created.</p>
+</blockquote>
+
+<ol>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>Azure Cosmos DB</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Azure Cosmos DB</strong> blade that displays, select the Azure Cosmos DB account instance that has a prefix of <strong>nosql20532</strong>.</p>
+  </li>
+  <li>
+    <p>In the <em>Azure Cosmos DB account</em> blade, locate the <strong>Settings</strong> section on the left-side of the blade and click the <strong>Keys</strong> link.</p>
+  </li>
+  <li>
+    <p>In the <strong>Keys</strong> pane, record the values in the <strong>URI</strong> and <strong>PRIMARY KEY</strong> fields. You will use these values later in this lab.</p>
+  </li>
+</ol>
+
+<h4 id="task-4-update-settings-in-contosoevents-projects">Task 4: Update Settings in Contoso.Events Projects</h4>
+
+<ol>
+  <li>
+    <p>On the Start screen, click the <strong>Desktop</strong> tile.</p>
+  </li>
+  <li>
+    <p>On the taskbar, click the <strong>File Explorer</strong> icon.</p>
+  </li>
+  <li>
+    <p>In the <em>This PC</em> window, go to <strong>Allfiles (F):\Mod08\Labfiles\Starter</strong>, and then double-click <strong>Contoso.Events.sln</strong>.</p>
+  </li>
+  <li>
+    <p>On the <strong>Build</strong> menu, click <strong>Build Solution</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane of the Contoso.Events - Microsoft Visual Studio window, expand the <strong>Contoso.Events.Management</strong> project.</p>
+  </li>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane, double-click <strong>appsettings.json</strong>.</p>
+  </li>
+  <li>
+    <p>In the JSON object, in line 21, locate the <strong>ConnectionStrings.EventsContextConnectionString</strong> path. Observe that the current value is empty:</p>
+
+    <pre><code> "ConnectionStrings": {
+     "EventsContextConnectionString": ""
+ },
+</code></pre>
+  </li>
+  <li>
+    <p>Update the value of the <strong>EventsContextConnectionString</strong> property by setting it’s value to the <strong>Connection String</strong> of the <strong>SQL Database</strong> you recorded earlier in this lab.</p>
+  </li>
+  <li>
+    <p>In the JSON object, in line 17, locate the <strong>CosmosSettings.EndpointUrl</strong> path. Observe that the current value is empty:</p>
+
+    <pre><code> "CosmosSettings": {
+     "DatabaseId": "EventsDatabase",
+     "CollectionId": "RegistrationCollection",
+     "EndpointUrl": "",
+     "AuthorizationKey": ""
+ },
+</code></pre>
+  </li>
+  <li>
+    <p>Update the value of the <strong>EndpointUrl</strong> property by setting it’s value to the <strong>Endpoint Uri</strong> of the <strong>Azure Cosmos DB account</strong> you recorded earlier in this lab.</p>
+  </li>
+  <li>
+    <p>In the JSON object, in line 18, locate the <strong>CosmosSettings.AuthorizationKey</strong> path. Observe that the current value is empty:</p>
+
+    <pre><code> "CosmosSettings": {
+     "DatabaseId": "EventsDatabase",
+     "CollectionId": "RegistrationCollection",
+     "EndpointUrl": "",
+     "AuthorizationKey": ""
+ },
+</code></pre>
+  </li>
+  <li>
+    <p>Update the value of the <strong>AuthorizationKey</strong> property by setting it’s value to the <strong>Key</strong> of the <strong>Azure Cosmos DB account</strong> you recorded earlier in this lab.</p>
+  </li>
+  <li>
+    <p>In the JSON object, in line 6, locate the <strong>StorageSettings.ConnectionString</strong> path. Observe that the current value is empty:</p>
+
+    <pre><code> "StorageSettings": {
+     "ConnectionString": "",
+     "ContainerName": "signinsheets",
+ 	"QueueName": "signinqueue"
+ },
+</code></pre>
+  </li>
+  <li>
+    <p>Update the value of the <strong>ConnectionString</strong> property by setting it’s value to the <strong>Connection String</strong> of the <strong>Storage account</strong> you recorded earlier in this lab.</p>
+  </li>
+  <li>
+    <p>In the JSON object, in line 11, locate the <strong>ServiceBusSettings.ConnectionString</strong> path. Observe that the current value is empty:</p>
+
+    <pre><code> "ServiceBusSettings": {
+     "ConnectionString": "",
+     "QueueName": "documentqueue"
+ },
+</code></pre>
+  </li>
+  <li>
+    <p>Update the value of the <strong>ConnectionString</strong> property by setting it’s value to the <strong>Connection String</strong> of the <strong>Service Bus namespace policy</strong> you recorded earlier in this lab.</p>
+  </li>
+  <li>
+    <p>Save the <strong>appsettings.json</strong> file.</p>
+  </li>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane of the Contoso.Events - Microsoft Visual Studio window, expand the <strong>Contoso.Events.Worker</strong> project.</p>
+  </li>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane, double-click <strong>local.settings.json</strong>.</p>
+  </li>
+  <li>
+    <p>In the JSON object, in line 4, locate the <strong>AzureWebJobsStorage</strong> path. Observe that the current value is empty:</p>
+
+    <pre><code> "AzureWebJobsStorage": "",	
+</code></pre>
+  </li>
+  <li>
+    <p>Update the value of the <strong>AzureWebJobsStorage</strong> property by setting it’s value to the <strong>Connection String</strong> of the <strong>Storage account</strong> you recorded earlier in this lab.</p>
+  </li>
+  <li>
+    <p>In the JSON object, in line 5, locate the <strong>AzureWebJobsDashboard</strong> path. Observe that the current value is empty:</p>
+
+    <pre><code> "AzureWebJobsDashboard": "",
+</code></pre>
+  </li>
+  <li>
+    <p>Update the value of the <strong>AzureWebJobsDashboard</strong> property by setting it’s value to the <strong>Connection String</strong> of the <strong>Storage account</strong> you recorded earlier in this lab.</p>
+  </li>
+  <li>
+    <p>In the JSON object, in line 6, locate the <strong>EventsContextConnectionString</strong> path. Observe that the current value is empty:</p>
+
+    <pre><code> "EventsContextConnectionString": "",
+</code></pre>
+  </li>
+  <li>
+    <p>Update the value of the <strong>EventsContextConnectionString</strong> property by setting it’s value to the <strong>Connection String</strong> of the <strong>SQL Database</strong> you recorded earlier in this lab.</p>
+  </li>
+  <li>
+    <p>In the JSON object, in line 7, locate the <strong>ServiceBusConnectionString</strong> path. Observe that the current value is empty:</p>
+
+    <pre><code> "ServiceBusConnectionString": "",
+</code></pre>
+  </li>
+  <li>
+    <p>Update the value of the <strong>ServiceBusConnectionString</strong> property by setting it’s value to the <strong>Connection String</strong> of the <strong>Service Bus namespace policy</strong> you recorded earlier in this lab.</p>
+  </li>
+  <li>
+    <p>In the JSON object, in line 8, locate the <strong>CosmosEndpointUrl</strong> path. Observe that the current value is empty:</p>
+
+    <pre><code> "CosmosEndpointUrl": "",
+</code></pre>
+  </li>
+  <li>
+    <p>Update the value of the <strong>CosmosEndpointUrl</strong> property by setting it’s value to the <strong>Endpoint Uri</strong> of the <strong>Azure Cosmos DB account</strong> you recorded earlier in this lab.</p>
+  </li>
+  <li>
+    <p>In the JSON object, in line 9, locate the <strong>CosmosAuthorizationKey</strong> path. Observe that the current value is empty:</p>
+
+    <pre><code> "CosmosAuthorizationKey": "",
+</code></pre>
+  </li>
+  <li>
+    <p>Update the value of the <strong>CosmosAuthorizationKey</strong> property by setting it’s value to the <strong>Key</strong> of the <strong>Azure Cosmos DB account</strong> you recorded earlier in this lab.</p>
+  </li>
+  <li>
+    <p>Save the <strong>local.settings.json</strong> file.</p>
+  </li>
+</ol>
+
+<h2 id="exercise-2-using-azure-storage-queues-for-document-generation">Exercise 2: Using Azure Storage Queues for Document Generation</h2>
+
+<h4 id="task-1-implement-queuecontext-class-using-the-iqueuecontext-interface">Task 1: Implement QueueContext Class using the IQueueContext Interface</h4>
+
+<ol>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane of the Contoso.Events - Microsoft Visual Studio window, expand the <strong>Contoso.Events.Data</strong> project and double-click the <strong>QueueContext.cs</strong> file.</p>
+  </li>
+  <li>
+    <p>In the code editor tab for the <strong>QueueContext.cs</strong> file, locate the <strong>QueueContext</strong> class:</p>
+
+    <pre><code> public class QueueContext : IQueueContext
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>QueueContext</strong> class, locate the <strong>SendQueueMessageAsync</strong> method and delete any existing code within the method:</p>
+
+    <pre><code> public async Task SendQueueMessageAsync(string eventKey)
+ {
+		
+ }
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>SendQueueMessageAsync</strong> method, add a new line of code to create a new <strong>CloudStorageAccount</strong> class instance:</p>
+
+    <pre><code> CloudStorageAccount account = CloudStorageAccount.Parse(StorageSettings.ConnectionString);
+</code></pre>
+  </li>
+  <li>
+    <p>Add a new line of code to create a new instance of the <strong>CloudQueueClient</strong> class using the <strong>CreateCloudQueueClient</strong> method of the <strong>CloudStorageAccount</strong> class:</p>
+
+    <pre><code> CloudQueueClient queueClient = account.CreateCloudQueueClient();
+</code></pre>
+  </li>
+  <li>
+    <p>Add a new line of code to get a reference to a new or existing queue using the <strong>GetQueueReference</strong> method of the <strong>CloudQueue</strong> class:</p>
+
+    <pre><code> CloudQueue queue = queueClient.GetQueueReference(StorageSettings.QueueName);
+</code></pre>
+  </li>
+  <li>
+    <p>Add a new line of code to invoke the <strong>CreateIfNotExistsAsync</strong> method of the <strong>CloudQueue</strong> class that will create the queue if it does not already exist:</p>
+
+    <pre><code> await queue.CreateIfNotExistsAsync();
+</code></pre>
+  </li>
+  <li>
+    <p>Add a new line of code to create a new <strong>CloduQueueMessage</strong> instance using the value of the <strong>eventKey</strong> parameter:</p>
+
+    <pre><code> CloudQueueMessage message = new CloudQueueMessage(eventKey);
+</code></pre>
+  </li>
+  <li>
+    <p>Add a new line of code to invoke the <strong>AddMessageAsync</strong> method of the <strong>CloudQueue</strong> class to send the message to the queue.</p>
+
+    <pre><code> await queue.AddMessageAsync(message);
+</code></pre>
+  </li>
+  <li>
+    <p>Save the <strong>QueueContext.cs</strong> file.</p>
+  </li>
+</ol>
+
+<h4 id="task-2-register-queuecontext-implementation-with-aspnet-mvc-dependency-injection">Task 2: Register QueueContext Implementation with ASP.NET MVC Dependency Injection</h4>
+
+<ol>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane of the Contoso.Events - Microsoft Visual Studio window, expand the <strong>Contoso.Events.Management</strong> project and double-click the <strong>Startup.cs</strong> file.</p>
+  </li>
+  <li>
+    <p>In the code editor tab for the <strong>Startup.cs</strong> file, locate the <strong>Startup</strong> class:</p>
+
+    <pre><code> public class Startup
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>Startup</strong> class, locate the <strong>ConfigureServices</strong> method:</p>
+
+    <pre><code> public void ConfigureServices(IServiceCollection services)
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>ConfigureServices</strong> method, add a new line of code at line 35 that registers the <strong>QueueContext</strong> implementation of the <strong>IQueueContext</strong> interface:</p>
+
+    <pre><code> services.AddTransient&lt;IQueueContext, QueueContext&gt;();
+</code></pre>
+  </li>
+  <li>
+    <p>Save the <strong>Startup.cs</strong> file.</p>
+  </li>
+</ol>
+
+<h4 id="task-3-implement-storage-queue-trigger-for-azure-function">Task 3: Implement Storage Queue Trigger for Azure Function</h4>
+
+<ol>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane of the Contoso.Events - Microsoft Visual Studio window, expand the <strong>Contoso.Events.Worker</strong> project and double-click the <strong>ProcessDocuments.cs</strong> file.</p>
+  </li>
+  <li>
+    <p>In the code editor tab for the <strong>ProcessDocuments.cs</strong> file, locate the <strong>ProcessDocuments</strong> class:</p>
+
+    <pre><code> public static class ProcessDocuments
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>ProcessDocuments</strong> class, locate the <strong>Run</strong> method:</p>
+
+    <pre><code> public static async Task Run(string message, [Blob("signinsheets/output.docx", FileAccess.Write)] Stream blob, TraceWriter log)
+</code></pre>
+  </li>
+  <li>
+    <p>Update the method signature of the <strong>Run</strong> method by adding a <strong>QueueTrigger</strong> parameter attribute to the <strong>message</strong> parameter specifying to use the <strong>signinqueue</strong> queue and the <strong>AzureWebJobsStorage</strong> connection string:</p>
+
+    <pre><code> public static async Task Run([QueueTrigger("signinqueue", Connection = "AzureWebJobsStorage")]string message, [Blob("signinsheets/output.docx", FileAccess.Write)] Stream blob, TraceWriter log)
+</code></pre>
+  </li>
+  <li>
+    <p>Update the method signature of the <strong>Run</strong> method by modifying the existing <strong>Blob</strong> parameter attribute to use the value from the queue message as the filename of the blob:</p>
+
+    <pre><code> public static async Task Run([QueueTrigger("signinqueue", Connection = "AzureWebJobsStorage")]string message, [Blob("signinsheets/{queueTrigger}.docx", FileAccess.Write)] Stream blob, TraceWriter log)
+</code></pre>
+  </li>
+  <li>
+    <p>Save the <strong>ProcessDocuments.cs</strong> file.</p>
+  </li>
+</ol>
+
+<h4 id="task-4-validate-sign-in-sheet-generation">Task 4: Validate Sign-In Sheet Generation</h4>
+
+<ol>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane, right-click the <strong>Contoso.Events</strong> solution, and then click <strong>Properties</strong>.</p>
+  </li>
+  <li>
+    <p>Navigate to the <strong>Startup Project</strong> section located under the <strong>Common Properties</strong> header.</p>
+  </li>
+  <li>
+    <p>In the <strong>Startup Project</strong> section, locate and select the <strong>Multiple startup projects</strong> option.</p>
+  </li>
+  <li>
+    <p>Within the <strong>Multiple startup projects</strong> table, perform the following actions:</p>
+
+    <p>b. Locate the <strong>Contoso.Events.Management</strong> entry and change it’s <em>Action</em> from <strong>None</strong> to <strong>Start</strong>.</p>
+
+    <p>c. Locate the <strong>Contoso.Events.Worker</strong> entry and change it’s <em>Action</em> from <strong>None</strong> to <strong>Start</strong>.</p>
+  </li>
+  <li>
+    <p>Click the <strong>OK</strong> button to close the <em>Property</em> dialog.</p>
+  </li>
+  <li>
+    <p>On the <strong>Debug</strong> menu, click <strong>Start Debugging</strong>.</p>
+  </li>
+  <li>
+    <p>On the home page of the web application, verify that it displays a list of events.</p>
+  </li>
+  <li>
+    <p>Click the <strong>Generate Sign-In Sheet</strong> button for any of the events in the list. Remember the name of the event as you will click the same button again in this lab.</p>
+  </li>
+  <li>
+    <p>You will observe that the Azure Function will immediately detect a message in the <strong>signinqueue</strong> queue and begin processing that message. Once it is done processing, it will create a new document in the <strong>signinsheets</strong> container.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: This can take up to a minute to occur.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Refresh the browser window that is displaying the website.</p>
+  </li>
+  <li>
+    <p>You should now see a section titled <strong>Sign-In Document Already Exists</strong>. This indicates that the sign-in document was generated successfully.</p>
+  </li>
+  <li>
+    <p>Open the downloaded <em>docx</em> file on your local machine. Observe and then close the file.</p>
+  </li>
+  <li>
+    <p>Close the browser window that is displaying the website.</p>
+  </li>
+  <li>
+    <p>Close the console window for the Azure Functions instance.</p>
+  </li>
+</ol>
+
+<h2 id="exercise-3-using-service-bus-queues-for-document-generation">Exercise 3: Using Service Bus Queues for Document Generation</h2>
+
+<h4 id="task-1-implement-servicebuscontext-class-using-the-iqueuecontext-interface">Task 1: Implement ServiceBusContext Class using the IQueueContext Interface</h4>
+
+<ol>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane of the Contoso.Events - Microsoft Visual Studio window, expand the <strong>Contoso.Events.Data</strong> project and double-click the <strong>ServiceBusContext.cs</strong> file.</p>
+  </li>
+  <li>
+    <p>In the code editor tab for the <strong>ServiceBusContext.cs</strong> file, locate the <strong>ServiceBusContext</strong> class:</p>
+
+    <pre><code> public class ServiceBusContext : IQueueContext
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>ServiceBusContext</strong> class, locate the <strong>SendQueueMessageAsync</strong> method and delete any existing code within the method:</p>
+
+    <pre><code> public async Task SendQueueMessageAsync(string eventKey)
+ {
+		
+ }
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>SendQueueMessageAsync</strong> method, add a new line of code to create a new <strong>QueueClient</strong> class instance:</p>
+
+    <pre><code> QueueClient queueClient = new QueueClient(ServiceBusSettings.ConnectionString, ServiceBusSettings.QueueName);
+</code></pre>
+  </li>
+  <li>
+    <p>Add a new line of serialize the <strong>eventKey</strong> parameter as a byte array:</p>
+
+    <pre><code> byte[] messageContent = Encoding.UTF8.GetBytes(eventKey);
+</code></pre>
+  </li>
+  <li>
+    <p>Add a new line of code to create a new instance of the <strong>Message</strong> class and pass in the byte array to the class constructor:</p>
+
+    <pre><code> Message message = new Message(messageContent);
+</code></pre>
+  </li>
+  <li>
+    <p>Add a new line of code to set the <strong>Label</strong> property of the <strong>Message</strong> class instance to the <strong>eventKey</strong> parameter:</p>
+
+    <pre><code> message.Label = eventKey;
+</code></pre>
+  </li>
+  <li>
+    <p>Add a new line of code to invoke the <strong>SendAsync</strong> method of the <strong>QueueClient</strong> class to send the message to the queue.</p>
+
+    <pre><code> await queueClient.SendAsync(message);
+</code></pre>
+  </li>
+  <li>
+    <p>Save the <strong>QueueContext.cs</strong> file.</p>
+  </li>
+</ol>
+
+<h4 id="task-2-register-servicebuscontext-implementation-with-aspnet-mvc-dependency-injection">Task 2: Register ServiceBusContext Implementation with ASP.NET MVC Dependency Injection</h4>
+
+<ol>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane of the Contoso.Events - Microsoft Visual Studio window, expand the <strong>Contoso.Events.Management</strong> project and double-click the <strong>Startup.cs</strong> file.</p>
+  </li>
+  <li>
+    <p>In the code editor tab for the <strong>Startup.cs</strong> file, locate the <strong>Startup</strong> class:</p>
+
+    <pre><code> public class Startup
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>Startup</strong> class, locate the <strong>ConfigureServices</strong> method:</p>
+
+    <pre><code> public void ConfigureServices(IServiceCollection services)
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>ConfigureServices</strong> method, replace the existing line of code at line 35 with a new line of code that registers the <strong>ServiceBusContext</strong> implementation of the <strong>IQueueContext</strong> interface:</p>
+
+    <pre><code> services.AddTransient&lt;IQueueContext, ServiceBusContext&gt;();
+</code></pre>
+  </li>
+  <li>
+    <p>Save the <strong>Startup.cs</strong> file.</p>
+  </li>
+</ol>
+
+<h4 id="task-3-implement-service-bus-queue-trigger-for-azure-function">Task 3: Implement Service Bus Queue Trigger for Azure Function</h4>
+
+<ol>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane of the Contoso.Events - Microsoft Visual Studio window, expand the <strong>Contoso.Events.Worker</strong> project and double-click the <strong>ProcessDocuments.cs</strong> file.</p>
+  </li>
+  <li>
+    <p>In the code editor tab for the <strong>ProcessDocuments.cs</strong> file, locate the <strong>ProcessDocuments</strong> class:</p>
+
+    <pre><code> public static class ProcessDocuments
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>ProcessDocuments</strong> class, locate the <strong>Run</strong> method:</p>
+
+    <pre><code> public static async Task Run([QueueTrigger("signinqueue", Connection = "AzureWebJobsStorage")]string message, [Blob("signinsheets/{queueTrigger}.docx", FileAccess.Write)] Stream blob, TraceWriter log)	    
+</code></pre>
+  </li>
+  <li>
+    <p>Update the method signature of the <strong>Run</strong> method by replacing the <strong>QueueTrigger</strong> parameter attribute with a <strong>ServiceBusTrigger</strong> parameter attribute and specifying to use the <strong>documentqueue</strong> queue and the <strong>ServiceBusConnectionString</strong> connection string:</p>
+
+    <pre><code> public static async Task Run([ServiceBusTrigger("documentqueue", Connection = "ServiceBusConnectionString")]string message, [Blob("signinsheets/{queueTrigger}.docx", FileAccess.Write)] Stream blob, TraceWriter log)
+</code></pre>
+  </li>
+  <li>
+    <p>Update the method signature of the <strong>Run</strong> method by modifying the existing <strong>Blob</strong> parameter attribute to use the <strong>label</strong> value from the queue message as the filename of the blob:</p>
+
+    <pre><code> public static async Task Run([ServiceBusTrigger("documentqueue", Connection = "ServiceBusConnectionString")]string message, [Blob("signinsheets/{label}.docx", FileAccess.Write)] Stream blob, TraceWriter log)
+</code></pre>
+  </li>
+  <li>
+    <p>Save the <strong>ProcessDocuments.cs</strong> file.</p>
+  </li>
+</ol>
+
+<h4 id="task-4-validate-sign-in-sheet-generation-1">Task 4: Validate Sign-In Sheet Generation</h4>
+
+<ol>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane, right-click the <strong>Contoso.Events</strong> solution, and then click <strong>Properties</strong>.</p>
+  </li>
+  <li>
+    <p>Navigate to the <strong>Startup Project</strong> section located under the <strong>Common Properties</strong> header.</p>
+  </li>
+  <li>
+    <p>In the <strong>Startup Project</strong> section, locate and select the <strong>Multiple startup projects</strong> option.</p>
+  </li>
+  <li>
+    <p>Within the <strong>Multiple startup projects</strong> table, perform the following actions:</p>
+
+    <p>b. Locate the <strong>Contoso.Events.Management</strong> entry and change it’s <em>Action</em> from <strong>None</strong> to <strong>Start</strong>.</p>
+
+    <p>c. Locate the <strong>Contoso.Events.Worker</strong> entry and change it’s <em>Action</em> from <strong>None</strong> to <strong>Start</strong>.</p>
+  </li>
+  <li>
+    <p>Click the <strong>OK</strong> button to close the <em>Property</em> dialog.</p>
+  </li>
+  <li>
+    <p>On the <strong>Debug</strong> menu, click <strong>Start Debugging</strong>.</p>
+  </li>
+  <li>
+    <p>On the home page of the web application, verify that it displays a list of events.</p>
+  </li>
+  <li>
+    <p>Click the <strong>Generate Sign-In Sheet</strong> button for any of the events in the list. Remember the name of the event as you will click the same button again in this lab.</p>
+  </li>
+  <li>
+    <p>You will observe that the Azure Function will immediately detect a message in the <strong>signinqueue</strong> queue and begin processing that message. Once it is done processing, it will create a new document in the <strong>signinsheets</strong> container.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: This can take up to a minute to occur.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Refresh the browser window that is displaying the website.</p>
+  </li>
+  <li>
+    <p>You should now see a section titled <strong>Sign-In Document Already Exists</strong>. This indicates that the sign-in document was generated successfully.</p>
+  </li>
+  <li>
+    <p>Open the downloaded <em>docx</em> file on your local machine. Observe and then close the file.</p>
+  </li>
+  <li>
+    <p>Close the browser window that is displaying the website.</p>
+  </li>
+  <li>
+    <p>Close the console window for the Azure Functions instance.</p>
+  </li>
+</ol>
+
+<h2 id="exercise-4-cleanup-subscription">Exercise 4: Cleanup Subscription</h2>
+
+<h4 id="task-1-open-cloud-shell">Task 1: Open Cloud Shell</h4>
+
+<ol>
+  <li>
+    <p>At the top of the portal, click the <strong>Cloud Shell</strong> icon to open a new shell instance.</p>
+  </li>
+  <li>
+    <p>In the <strong>Cloud Shell</strong> command prompt at the bottom of the portal, type in the following command and press <strong>Enter</strong> to list all resource groups in the subscription:</p>
+
+    <pre><code> az group list
+</code></pre>
+  </li>
+  <li>
+    <p>Type in the following command and press <strong>Enter</strong> to view a list of possible CLI commands to <em>delete a Resource Group</em>:</p>
+
+    <pre><code> az group delete --help
+</code></pre>
+  </li>
+</ol>
+
+<h4 id="task-2-delete-resource-group">Task 2: Delete Resource Group</h4>
+
+<ol>
+  <li>
+    <p>Type in the following command and press <strong>Enter</strong> to delete the <strong>MOD08QBUS</strong> <em>Resource Group</em>:</p>
+
+    <pre><code> az group delete --name MOD08QBUS --no-wait --yes
+</code></pre>
+  </li>
+  <li>
+    <p>Close the <strong>Cloud Shell</strong> prompt at the bottom of the portal.</p>
+  </li>
+</ol>
+
+<h4 id="task-3-close-active-applications">Task 3: Close Active Applications</h4>
+
+<ol>
+  <li>
+    <p>Close the currently running web browser application.</p>
+  </li>
+  <li>
+    <p>Close the currently running <strong>Visual Studio</strong> application.</p>
+  </li>
+</ol>
+
+<blockquote>
+  <p><strong>Review</strong>: In this exercise, you “cleaned up your subscription” by removing the <strong>Resource Groups</strong> used in this lab.</p>
+</blockquote>
+
+            </article>
+        </main>
+    </div>
+    <footer class="fixed-bottom">
+        <nav class="navbar navbar-light bg-light d-flex justify-content-around">
+            <span class="navbar-text">
+                <i class="fa fa-github" aria-hidden="true"></i>
+                <a href="https://github.com/MicrosoftLearning/20532-DevelopingMicrosoftAzureSolutions" target="_blank" class="ml-2">
+                    MicrosoftLearning/20532-DevelopingMicrosoftAzureSolutions
+                </a>
+            </span>
+        </nav>
+    </footer>
+    <script src="../../../../../code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="../../../../../cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="../../../../../maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+        $(function() {
+            $('article img').each(function() {
+                var src = $(this).attr('src');
+                $(this).wrap('<a href="' + src + '" target="_blank"></a>');
+            });
+            $('article > h2').each(function() {
+                $('nav.toc > ul').append(
+                    $('<li>')
+                        .attr('class', 'nav-item')
+                        .append(
+                            $('<a>')
+                                .attr('class', 'nav-link')
+                                .text($(this).text())
+                                .attr('href', '#' + $(this).attr('id'))
+                        ) 
+                );
+            });
+            $('[data-spy="scroll"]').each(function () {
+                var $spy = $(this).scrollspy('refresh')
+            });
+        });
+    </script>
+</body>
+
+
+<!-- Mirrored from microsoftlearning.github.io/20532-DevelopingMicrosoftAzureSolutions/Instructions/Labs/Mod08/LAB_AK_08.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Feb 2020 04:43:06 GMT -->
+</html>

@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+    
+<!-- Mirrored from microsoftlearning.github.io/20532-DevelopingMicrosoftAzureSolutions/Instructions/Labs/Mod10/LAB_AK_10.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Feb 2020 04:43:06 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+        <title>
+            20532: Developing Microsoft Azure Solutions - Module 10: DevOps in Azure
+        </title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="../../../../../maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="../../../../../maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link rel="stylesheet" href="../../../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs.min.css">
+        <script src="../../../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+        <link rel="stylesheet" href="../../../assets/css/style3a94.css?v=d86f0e41cbfc727fd1aa5c93305bbd3184d0b042">
+    </head>
+    <body data-spy="scroll" data-target="#linksMenu">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+        <div class="container d-flex justify-content-between">
+            <a class="my-1 title text-azure text-uppercase" href="http://microsoftlearning.github.io/20532-DevelopingMicrosoftAzureSolutions">
+                20532: Developing Microsoft Azure Solutions
+            </a>
+            <a href="https://github.com/MicrosoftLearning/20532-DevelopingMicrosoftAzureSolutions" target="_blank" class="btn btn-sm btn-outline-secondary text-light">
+                <i class="fa fa-github" aria-hidden="true"></i>
+                <span class="ml-2">GitHub</span>
+            </a>
+        </div>
+    </nav>
+    <div class="container">
+        <main class="row extra-padding">
+            <aside class="col-sm-2">       
+                <nav id="linksMenu" class="toc sticky-top">
+                    <ul class="nav navbar-nav flex-column">
+                    </ul>
+                </nav>         
+            </aside>
+            <hr class="" />
+            <article class="col-sm-10 mb-5">
+                <h1 id="module-10-devops-in-azure">Module 10: DevOps in Azure</h1>
+
+<h1 id="lab-deploying-templated-environments-using-the-cloud-shell">Lab: Deploying Templated Environments Using the Cloud Shell</h1>
+
+<h2 id="exercise-1-start-the-cloud-shell">Exercise 1: Start the Cloud Shell</h2>
+
+<h4 id="task-1-sign-in-to-the-azure-portal">Task 1: Sign in to the Azure Portal</h4>
+
+<ol>
+  <li>
+    <p>On the Start screen, click the <strong>Internet Explorer</strong> tile.</p>
+  </li>
+  <li>
+    <p>Go to <em>(<a href="https://portal.azure.com/">https://portal.azure.com</a>)</em>.</p>
+  </li>
+  <li>
+    <p>In the email address box, type the email address of your Microsoft account.</p>
+  </li>
+  <li>
+    <p>Click <strong>Next</strong>.</p>
+  </li>
+  <li>
+    <p>In the password box, type the password for your Microsoft account.</p>
+  </li>
+  <li>
+    <p>Click <strong>Sign In</strong>.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: If this is your first time logging in to the Portal, you may be prompted with a “Welcome” dialog. You can safely close this dialog and continue.</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h4 id="task-2-run-the-cloud-shell">Task 2: Run the Cloud Shell</h4>
+
+<ol>
+  <li>
+    <p>At the top of the portal, click the <strong>Cloud Shell</strong> icon to open a new shell instance.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: The <strong>Cloud Shell</strong> icon is a symbol that is constructed of the combination of the <em>greater than</em> and <em>underscore</em> characters.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>If this is your first time opening the <strong>Cloud Shell</strong> using your <em>Azure Pass</em> subscription, you will see a wizard to configure <strong>Cloud Shell</strong> for first-time usage. Perform the following actions:</p>
+
+    <p>a. When offered a choice between <strong>Bash</strong> or <strong>PowerShell</strong>, select the <strong>Bash</strong> option.</p>
+
+    <p>a. You will then see a dialog prompting you to create a new <strong>Storage Account</strong> to begin using the shell. You can safely accept the default settings and click the <strong>Create storage</strong> button.</p>
+
+    <p>a. Wait for the <strong>Cloud Shell</strong> to finish its first-time setup procedures before moving on with the lab.</p>
+
+    <blockquote>
+      <p>If you do not see the configuration options for <strong>Cloud Shell</strong>, this is most likely because you are using an existing subscription with this course’s labs. The labs are written from the perspective that you are using a new Azure Pass subscription. You may see some small discrepancies in future lab instructions.</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h4 id="task-3-create-resource-group--resources">Task 3: Create Resource Group &amp; Resources</h4>
+
+<ol>
+  <li>
+    <p>To create a new <strong>Resource Group</strong>, type the following command into the shell and press Enter:</p>
+
+    <pre><code> az group create --name MOD10MNUL --location eastus
+</code></pre>
+  </li>
+  <li>
+    <p>To create a new <strong>Azure Cosmos DB Account</strong> in the resource group, type the following command into the shell and press Enter:</p>
+
+    <pre><code> az cosmosdb create --name csms20532[Your Name Here] --resource-group MOD10MNUL
+</code></pre>
+  </li>
+  <li>
+    <p>Once the <strong>Azure Cosmos DB Account</strong> is created, type the following command into the shell and press Enter to view your <strong>Endpoint Uri</strong>. Record this value as you will need to use it later in this lab:</p>
+
+    <pre><code> az cosmosdb show --name csms20532[Your Name Here] --resource-group MOD10MNUL --query 'documentEndpoint' --output tsv
+</code></pre>
+  </li>
+  <li>
+    <p>Type the following command into the shell and press Enter to view your <strong>Key</strong> for your <strong>Azure Cosmos DB Account</strong>. Record this value as you will need to use it later in this lab:</p>
+
+    <pre><code> az cosmosdb list-keys --name csms20532[Your Name Here] --resource-group MOD10MNUL --query 'primaryMasterKey' --output tsv
+</code></pre>
+  </li>
+  <li>
+    <p>To create a new <strong>SQL Server</strong> in the resource group, type the following command into the shell and press Enter:</p>
+
+    <pre><code> az sql server create --name srvr20532[Your Name Here] --resource-group MOD10MNUL --admin-user testuser --admin-password TestPa$$w0rd --location eastus
+</code></pre>
+  </li>
+  <li>
+    <p>To add a new <em>firewall rule</em> to allow all Azure-originating IP ranges to access your server, type the following command into the shell and press Enter:</p>
+
+    <pre><code> az sql server firewall-rule create --name AllowAllWindowsAzureIps --server srvr20532[Your Name Here] --resource-group MOD10MNUL --start-ip-address 0.0.0.0 --end-ip-address 0.0.0.0
+</code></pre>
+  </li>
+  <li>
+    <p>To create a new <strong>SQL Database</strong> in the resource group, type the following command into the shell and press Enter:</p>
+
+    <pre><code> az sql db create --name ContosoDB --server srvr20532[Your Name Here] --resource-group MOD10MNUL --edition Basic
+</code></pre>
+  </li>
+  <li>
+    <p>Once the <strong>SQL Database</strong> is created, type the following command into the shell and press Enter to view your <strong>Connection String</strong>. Record this value as you will need to use it later in this lab.  Be sure to replace the placeholder values for <code>&lt;username&gt;</code> and <code>&lt;password&gt;</code> with the values <strong>testuser</strong> and <strong>TestPa$$w0rd</strong> respectively.</p>
+
+    <pre><code> az sql db show-connection-string --name ContosoDB --server srvr20532[Your Name Here] --client ado.net --output tsv
+</code></pre>
+
+    <blockquote>
+      <p><strong>Note</strong>: For example, if your copied connection string is <code>Server=tcp:sv20532microsoft.database.windows.net,1433;Initial Catalog=db20532;Persist Security Info=False;User ID=&lt;username&gt;;Password=&lt;password&gt;;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;</code>, your updated connection string would be <code>Server=tcp:sv20532microsoft.database.windows.net,1433;Initial Catalog=db20532;Persist Security Info=False;User ID=testuser;Password=TestPa$$w0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;</code>:</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>To create a new <strong>App Service Plan</strong> in the resource group, type the following command into the shell and press Enter:</p>
+
+    <pre><code> az appservice plan create --name contosoPlan --resource-group MOD10MNUL --sku S1
+</code></pre>
+  </li>
+  <li>
+    <p>To create a new <strong>Web App</strong> for the management web application, type the following command into the shell and press Enter:</p>
+
+    <pre><code> az webapp create --name webp20532[Your Name Here] --resource-group MOD10MNUL --plan contosoPlan
+</code></pre>
+  </li>
+  <li>
+    <p>To configure the <strong>Web App</strong> and enable the <strong>Always On</strong> feature, type the following command into the shell and press Enter:</p>
+
+    <pre><code> az webapp config set --name webp20532[Your Name Here] --resource-group MOD10MNUL --always-on true
+</code></pre>
+  </li>
+  <li>
+    <p>To set a <strong>Connection String</strong> in the <strong>Web App</strong>’s configuration, type the following command into the shell and press Enter. Remember to replace the <code>[SQL Database Connection String]</code> placeholder the <strong>Connection String</strong> from the <strong>SQL Database</strong> instance you created earlier in this lab:</p>
+
+    <pre><code> az webapp config connection-string set --name webp20532[Your Name Here] --resource-group MOD10MNUL --connection-string-type SQLAzure --settings EventsContextConnectionString='[SQL Database Connection String]'
+</code></pre>
+  </li>
+  <li>
+    <p>To set an <strong>App Setting</strong> in the <strong>Web App</strong>’s configuration, type the following command into the shell and press Enter. Remember to replace the <code>[Azure Cosmos DB Endpoint Uri]</code> placeholder the <strong>Endpoint Uri</strong> from the <strong>Azure Cosmos DB</strong> account you created earlier in this lab:</p>
+
+    <pre><code> az webapp config appsettings set --name webp20532[Your Name Here] --resource-group MOD10MNUL --settings CosmosSettings:EndpointUrl='[Azure Cosmos DB Endpoint Uri]'
+</code></pre>
+  </li>
+  <li>
+    <p>To set an <strong>App Setting</strong> in the <strong>Web App</strong>’s configuration, type the following command into the shell and press Enter. Remember to replace the <code>[Azure Cosmos DB Key]</code> placeholder the <strong>Key</strong> from the <strong>Azure Cosmos DB</strong> account you created earlier in this lab:</p>
+
+    <pre><code> az webapp config appsettings set --name webp20532[Your Name Here] --resource-group MOD10MNUL --settings CosmosSettings:AuthorizationKey='[Azure Cosmos DB Key]'
+</code></pre>
+  </li>
+</ol>
+
+<h4 id="task-4-deploy-web-application-manually">Task 4: Deploy Web Application Manually</h4>
+
+<ol>
+  <li>
+    <p>On the Start screen, click the <strong>Desktop</strong> tile.</p>
+  </li>
+  <li>
+    <p>On the taskbar, click the <strong>File Explorer</strong> icon.</p>
+  </li>
+  <li>
+    <p>In the <em>This PC</em> window, go to <strong>Allfiles (F):\Mod10\Labfiles\Starter</strong>, and then double-click <strong>Contoso.Events.sln</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane of the Contoso.Events - Microsoft Visual Studio window, right-click the <strong>Contoso.Events.Web</strong> project and then select the <strong>Publish</strong> option.</p>
+  </li>
+  <li>
+    <p>In the <strong>Pick a publish target</strong> dialog, perform the following actions:</p>
+
+    <p>a. Select the <strong>App Service</strong> option on the left of the dialog.</p>
+
+    <p>a. In the <strong>Azure App Service</strong> section, select the <strong>Select Existing</strong> option.</p>
+
+    <p>a. Click the <strong>Publish</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <strong>App Service</strong> dialog, perform the following actions:</p>
+
+    <p>a. The <strong>Subscription</strong> list should automatically populate with your Azure Subscription data.</p>
+
+    <p>a. In the <strong>View</strong> list, select the <strong>Resource Type</strong> option.</p>
+
+    <p>a. In the <strong>Search</strong> field, enter the value <strong>webp20532</strong>.</p>
+
+    <p>a. In the tree view, select the single <strong>Web App</strong> instance that has a prefix of <strong>webp20532</strong>.</p>
+
+    <p>a. Click the <strong>OK</strong> button to begin the deployment process.</p>
+  </li>
+  <li>
+    <p>The deployment process will begin immediately. You can view the status of the deployment by watching the <strong>Web Publish Activity</strong> pane.</p>
+  </li>
+  <li>
+    <p>Wait for the deployment to complete. Visual Studio will automatically open the deployed web application in a browser window.</p>
+  </li>
+  <li>
+    <p>In the deployed web application, observe the events listed on the home page of the application.</p>
+  </li>
+</ol>
+
+<h2 id="exercise-2-use-the-cloud-shell-to-deploy-an-arm-template">Exercise 2: Use the Cloud Shell to Deploy an ARM Template</h2>
+
+<h4 id="task-1-create-resource-group">Task 1: Create Resource Group</h4>
+
+<ol>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>Resource groups</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Resource groups</strong> blade that displays, view your list of Resource groups.</p>
+  </li>
+  <li>
+    <p>At the top of the <strong>Resource groups</strong> blade, click the <strong>Add</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <em>Create an empty resource group</em> blade, perform the following actions:</p>
+
+    <p>a. In the <strong>Resource group name</strong> field, enter the value <strong>MOD10ARMG</strong>.</p>
+
+    <p>a. In the <strong>Resource group location</strong> field, select the region closest to your current location.</p>
+
+    <p>a. Click the <strong>Create</strong> button.</p>
+  </li>
+</ol>
+
+<h4 id="task-2-create-deployment">Task 2: Create Deployment</h4>
+
+<ol>
+  <li>
+    <p>On the left side of the portal, click the <strong>Create a resource</strong> link.</p>
+  </li>
+  <li>
+    <p>At the top of the <strong>New</strong> blade, locate the <strong>Search the Marketplace</strong> field.</p>
+  </li>
+  <li>
+    <p>Enter the text <strong>Template Deployment</strong> into the search field and press <strong>Enter</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Everything</strong> search results blade, select the <strong>Template deployment</strong> result.</p>
+  </li>
+  <li>
+    <p>In the <strong>Template deployment</strong> blade, click the <strong>Create</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <strong>Custom deployment</strong> blade, click the <em>Build your own template in the editor</em> link.</p>
+  </li>
+  <li>
+    <p>In the <strong>Edit template</strong> blade, locate the text editor and delete the existing template content.</p>
+  </li>
+  <li>
+    <p>In the <strong>Edit template</strong> blade, click the <strong>Load file</strong> link.</p>
+  </li>
+  <li>
+    <p>In the <strong>Open</strong> file dialog that appears, navigate to the <strong>Allfiles (F):\Mod10\Labfiles\Starter</strong> folder.</p>
+  </li>
+  <li>
+    <p>Select the <strong>azuredeploy.json</strong> file.</p>
+  </li>
+  <li>
+    <p>Click the <strong>Open</strong> button.</p>
+  </li>
+  <li>
+    <p>Back in the <strong>Edit template</strong> blade, click the <strong>Save</strong> button to persist the template.</p>
+  </li>
+  <li>
+    <p>Back in the <strong>Custom deployment</strong> blade, perform the following actions:</p>
+
+    <p>a. Leave the <strong>Subscription</strong> field set to it’s default value.</p>
+
+    <p>a. In the <strong>Resource group</strong> section, select the <strong>Use existing</strong> option.</p>
+
+    <p>a. In the <strong>Resource group</strong> section, locate the list and select the value <strong>MOD10ARMG</strong> option.</p>
+
+    <p>a. Leave the remaining fields in the <strong>SETTINGS</strong> section set to their default values.</p>
+
+    <p>a. In the <strong>Terms and Conditions</strong> section, select the <em>I agree to the terms and conditions stated above</em> checkbox.</p>
+
+    <p>a. Click the <strong>Purchase</strong> button.</p>
+  </li>
+  <li>
+    <p>Wait for the creation task to complete before moving on with this lab.</p>
+  </li>
+</ol>
+
+<h4 id="task-3-validate-deployment">Task 3: Validate Deployment</h4>
+
+<ol>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>Resource groups</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Resource groups</strong> blade that displays, click the <strong>MOD10ARMG</strong> resource group.</p>
+  </li>
+  <li>
+    <p>In the <strong>MOD10ARMG</strong> blade, locate and click the <strong>Web App</strong> resource that has a prefix of <strong>webp</strong>.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: There is another <strong>Web App</strong> instance with a prefix of <strong>webm</strong> and a <strong>Function App</strong> instance with a prefix of <strong>func</strong>.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>In the <strong>Web App</strong> blade, click the <strong>Browse</strong> button at the top of the blade.</p>
+  </li>
+  <li>
+    <p>On the home page of the web application, verify that it displays a list of events.</p>
+  </li>
+  <li>
+    <p>Click any of the events in the list.</p>
+  </li>
+  <li>
+    <p>On the event web page, click the <strong>Register Now</strong> button.</p>
+  </li>
+  <li>
+    <p>Fill out all of the fields in the registration form and click Submit.</p>
+  </li>
+  <li>
+    <p>Close the browser window/tab that is displaying the website.</p>
+  </li>
+</ol>
+
+<h2 id="exercise-3-cleanup-subscription">Exercise 3: Cleanup Subscription</h2>
+
+<h4 id="task-1-open-cloud-shell">Task 1: Open Cloud Shell</h4>
+
+<ol>
+  <li>
+    <p>At the top of the portal, click the <strong>Cloud Shell</strong> icon to open a new shell instance.</p>
+  </li>
+  <li>
+    <p>In the <strong>Cloud Shell</strong> command prompt at the bottom of the portal, type in the following command and press <strong>Enter</strong> to list all resource groups in the subscription:</p>
+
+    <pre><code> az group list
+</code></pre>
+  </li>
+  <li>
+    <p>Type in the following command and press <strong>Enter</strong> to view a list of possible CLI commands to <em>delete a Resource Group</em>:</p>
+
+    <pre><code> az group delete --help
+</code></pre>
+  </li>
+</ol>
+
+<h4 id="task-2-delete-resource-groups">Task 2: Delete Resource Groups</h4>
+
+<ol>
+  <li>
+    <p>Type in the following command and press <strong>Enter</strong> to delete the <strong>MOD10MNUL</strong> <em>Resource Group</em>:</p>
+
+    <pre><code> az group delete --name MOD10MNUL --no-wait --yes
+</code></pre>
+  </li>
+  <li>
+    <p>Type in the following command and press <strong>Enter</strong> to delete the <strong>MOD10ARMG</strong> <em>Resource Group</em>:</p>
+
+    <pre><code> az group delete --name MOD10ARMG --no-wait --yes
+</code></pre>
+  </li>
+  <li>
+    <p>Close the <strong>Cloud Shell</strong> prompt at the bottom of the portal.</p>
+  </li>
+</ol>
+
+<h4 id="task-3-close-active-applications">Task 3: Close Active Applications</h4>
+
+<ol>
+  <li>
+    <p>Close the currently running web browser application.</p>
+  </li>
+  <li>
+    <p>Close the currently running <strong>Visual Studio</strong> application.</p>
+  </li>
+</ol>
+
+<blockquote>
+  <p><strong>Review</strong>: In this exercise, you “cleaned up your subscription” by removing the <strong>Resource Groups</strong> used in this lab.</p>
+</blockquote>
+
+            </article>
+        </main>
+    </div>
+    <footer class="fixed-bottom">
+        <nav class="navbar navbar-light bg-light d-flex justify-content-around">
+            <span class="navbar-text">
+                <i class="fa fa-github" aria-hidden="true"></i>
+                <a href="https://github.com/MicrosoftLearning/20532-DevelopingMicrosoftAzureSolutions" target="_blank" class="ml-2">
+                    MicrosoftLearning/20532-DevelopingMicrosoftAzureSolutions
+                </a>
+            </span>
+        </nav>
+    </footer>
+    <script src="../../../../../code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="../../../../../cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="../../../../../maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+        $(function() {
+            $('article img').each(function() {
+                var src = $(this).attr('src');
+                $(this).wrap('<a href="' + src + '" target="_blank"></a>');
+            });
+            $('article > h2').each(function() {
+                $('nav.toc > ul').append(
+                    $('<li>')
+                        .attr('class', 'nav-item')
+                        .append(
+                            $('<a>')
+                                .attr('class', 'nav-link')
+                                .text($(this).text())
+                                .attr('href', '#' + $(this).attr('id'))
+                        ) 
+                );
+            });
+            $('[data-spy="scroll"]').each(function () {
+                var $spy = $(this).scrollspy('refresh')
+            });
+        });
+    </script>
+</body>
+
+
+<!-- Mirrored from microsoftlearning.github.io/20532-DevelopingMicrosoftAzureSolutions/Instructions/Labs/Mod10/LAB_AK_10.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Feb 2020 04:43:06 GMT -->
+</html>

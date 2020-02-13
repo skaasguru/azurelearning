@@ -1,0 +1,916 @@
+<!doctype html>
+<html lang="en">
+    
+<!-- Mirrored from microsoftlearning.github.io/20532-DevelopingMicrosoftAzureSolutions/Instructions/Labs/Mod06/LAB_AK_06.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Feb 2020 04:43:06 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+        <title>
+            20532: Developing Microsoft Azure Solutions - Module 6: Storing Unstructured Data in Azure
+        </title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="../../../../../maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="../../../../../maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link rel="stylesheet" href="../../../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs.min.css">
+        <script src="../../../../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+        <link rel="stylesheet" href="../../../assets/css/style3a94.css?v=d86f0e41cbfc727fd1aa5c93305bbd3184d0b042">
+    </head>
+    <body data-spy="scroll" data-target="#linksMenu">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+        <div class="container d-flex justify-content-between">
+            <a class="my-1 title text-azure text-uppercase" href="http://microsoftlearning.github.io/20532-DevelopingMicrosoftAzureSolutions">
+                20532: Developing Microsoft Azure Solutions
+            </a>
+            <a href="https://github.com/MicrosoftLearning/20532-DevelopingMicrosoftAzureSolutions" target="_blank" class="btn btn-sm btn-outline-secondary text-light">
+                <i class="fa fa-github" aria-hidden="true"></i>
+                <span class="ml-2">GitHub</span>
+            </a>
+        </div>
+    </nav>
+    <div class="container">
+        <main class="row extra-padding">
+            <aside class="col-sm-2">       
+                <nav id="linksMenu" class="toc sticky-top">
+                    <ul class="nav navbar-nav flex-column">
+                    </ul>
+                </nav>         
+            </aside>
+            <hr class="" />
+            <article class="col-sm-10 mb-5">
+                <h1 id="module-6-storing-unstructured-data-in-azure">Module 6: Storing Unstructured Data in Azure</h1>
+
+<h1 id="lab-storing-event-registration-data-in-azure-cosmos-db">Lab: Storing Event Registration Data in Azure Cosmos DB</h1>
+
+<h2 id="exercise-1-populating-the-sign-in-form-with-registrant-names">Exercise 1: Populating the Sign-In Form with Registrant Names</h2>
+
+<h4 id="task-1-sign-in-to-the-azure-portal">Task 1: Sign in to the Azure Portal</h4>
+
+<ol>
+  <li>
+    <p>On the Start screen, click the <strong>Internet Explorer</strong> tile.</p>
+  </li>
+  <li>
+    <p>Go to <em>(<a href="https://portal.azure.com/">https://portal.azure.com</a>)</em>.</p>
+  </li>
+  <li>
+    <p>In the email address box, type the email address of your Microsoft account.</p>
+  </li>
+  <li>
+    <p>Click <strong>Next</strong>.</p>
+  </li>
+  <li>
+    <p>In the password box, type the password for your Microsoft account.</p>
+  </li>
+  <li>
+    <p>Click <strong>Sign In</strong>.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: If this is your first time logging in to the Portal, you may be prompted with a “Welcome” dialog. You can safely close this dialog and continue.</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h4 id="task-2-create-an-azure-storage-instance">Task 2: Create an Azure Storage Instance</h4>
+
+<ol>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>Storage Accounts</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Storage accounts</strong> blade that displays, view your list of Storage instances.</p>
+  </li>
+  <li>
+    <p>At the top of the <strong>Storage accounts</strong> blade, click the <strong>Add</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <strong>Create storage account</strong> blade that displays, perform the following steps:</p>
+
+    <p>a. In the <strong>Name</strong> field, provide the value <strong>star20532[your name in lowercase here]</strong>.</p>
+
+    <p>a. In the <strong>Deployment model</strong> section, ensure that the <em>Resource manager</em> option is selected.</p>
+
+    <p>a. In the <strong>Account kind</strong> list, ensure that the <em>StorageV2 (general purpose v2)</em> option is selected.</p>
+
+    <p>a. In the <strong>Location</strong> list, select the region closest to your current location.</p>
+
+    <p>a. Click on the <strong>Replication</strong> list and select the <strong>Locally-redundant storage (LRS)</strong> option.</p>
+
+    <p>a. In the <strong>Performance</strong> section, ensure that the <em>Standard</em> option is selected.</p>
+
+    <p>a. In the <strong>Access tier</strong> section, ensure that the <em>Hot</em> option is selected.</p>
+
+    <p>a. In the <strong>Secure transfer required</strong> section, ensure that the <em>Enabled</em> option is selected.</p>
+
+    <p>a. In the <strong>Resource group</strong> section, select the <strong>Create new</strong> option.</p>
+
+    <p>a. In the <strong>Resource group</strong> section, locate the dialog box and enter the value <strong>MOD06NSQL</strong>.</p>
+
+    <p>a. In the <strong>Virtual networks</strong> section, ensure that the <em>Disabled</em> option is selected.</p>
+
+    <p>a. Click the <strong>Create</strong> button.</p>
+  </li>
+</ol>
+
+<blockquote>
+  <p><strong>Note</strong>: Wait for Azure to finish creating the storage account prior to moving forward with the lab. You will receive a notification when the <em>Storage Account</em> is created.</p>
+</blockquote>
+
+<ol>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>Storage Accounts</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Storage accounts</strong> blade that displays, select the Storage account instance that has a prefix of <strong>star20532</strong>.</p>
+  </li>
+  <li>
+    <p>In the <em>Storage account</em> blade, locate the <strong>Settings</strong> section on the left-side of the blade and click the <strong>Access keys</strong> link.</p>
+  </li>
+  <li>
+    <p>In the <strong>Access keys</strong> blade, select any one of the keys and record the value in the <strong>Connection string</strong> field. You will use this value later in this lab.</p>
+  </li>
+</ol>
+
+<h4 id="task-3-create-an-azure-sql-database-instance">Task 3: Create an Azure SQL Database Instance</h4>
+
+<ol>
+  <li>
+    <p>In the navigation pane on the left side, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>SQL databases</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>SQL databases</strong> blade that displays, view your list of SQL databases.</p>
+  </li>
+  <li>
+    <p>At the top of the <strong>SQL databases</strong> blade, click the <strong>Add</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <em>SQL database</em> blade that displays, locate the <strong>Database name</strong> field and provide the value <strong>db20532</strong>.</p>
+  </li>
+  <li>
+    <p>Locate the <strong>Resource group</strong> section, select the <strong>Use existing</strong> option and then select the option <strong>MOD06NSQL</strong> from the list.</p>
+  </li>
+  <li>
+    <p>In the <strong>Select source</strong> list, select the value <strong>Blank database</strong>.</p>
+  </li>
+  <li>
+    <p>Click the <strong>Server</strong> option.</p>
+  </li>
+  <li>
+    <p>In the <strong>Server</strong> blade that displays, perform the following actions:</p>
+
+    <p>a. Click <strong>Create a new server</strong>.</p>
+
+    <p>a. In the <strong>New Server</strong> blade that displays, locate the <strong>Server Name</strong> field.</p>
+
+    <p>a. In the <strong>Server name</strong> field, type <strong>sv20532[<em>Your Name Here</em>]</strong>.</p>
+
+    <p>a. In the <strong>Server admin login</strong> field, type <strong>testuser</strong> as login.</p>
+
+    <p>a. In the <strong>Password</strong> field, type <strong>TestPa$$w0rd</strong> as password.</p>
+
+    <p>a. In the <strong>Confirm password</strong> field, type <strong>TestPa$$w0rd</strong>.</p>
+
+    <p>a. In the <strong>Location</strong> list, select the region that is closest to your location.</p>
+
+    <p>a. Click the <strong>Select</strong> button.</p>
+  </li>
+  <li>
+    <p>Back in the <strong>SQL database</strong> blade, click the <strong>Pricing Tier</strong> option.</p>
+  </li>
+  <li>
+    <p>In the <strong>Resource Configuration &amp; Pricing</strong> blade that displays, select the <strong>Basic</strong> option.</p>
+  </li>
+  <li>
+    <p>Click <strong>Apply</strong> to close the blade.</p>
+  </li>
+  <li>
+    <p>Back in the <strong>SQL database</strong> blade, click the <strong>Create</strong> button to create the SQL database and server.</p>
+  </li>
+</ol>
+
+<blockquote>
+  <p><strong>Note</strong>: Wait for Azure to finish creating the SQL Database instance prior to moving forward with the lab. You will receive a notification when the <em>SQL Database</em> is created.</p>
+</blockquote>
+
+<ol>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>SQL Database</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>SQL Database</strong> blade that displays, select the SQL database instance named <strong>db20532</strong>.</p>
+  </li>
+  <li>
+    <p>In the <em>SQL database</em> blade, locate the <strong>Settings</strong> section on the left-side of the blade and click the <strong>Connection strings</strong> link.</p>
+  </li>
+  <li>
+    <p>In the <strong>Connection strings</strong> pane, copy the value of the <strong>ADO.NET</strong> connection string. Be sure to replace the placeholder values for <code>{your_username}</code> and <code>{your_password}</code> with the values <strong>testuser</strong> and <strong>TestPa$$w0rd</strong> respectively.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: For example, if your copied connection string is <code>Server=tcp:sv20532microsoft.database.windows.net,1433;Initial Catalog=db20532;Persist Security Info=False;User ID={your_username};Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;</code>, your updated connection string would be <code>Server=tcp:sv20532microsoft.database.windows.net,1433;Initial Catalog=db20532;Persist Security Info=False;User ID=testuser;Password=TestPa$$w0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;</code></p>
+    </blockquote>
+  </li>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>SQL servers</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>SQL servers</strong> blade that displays, select the SQL database instance that has a prefix of <strong>sv20532</strong>.</p>
+  </li>
+  <li>
+    <p>In the <em>SQL server</em> blade, locate the <strong>Security</strong> section on the left-side of the blade and click the <strong>Firewalls and virtual networks</strong> link.</p>
+  </li>
+  <li>
+    <p>In the <strong>Firewalls and virtual networks</strong> pane, click the <strong>Add client IP</strong> button to add your virtual machine’s IP Address to the list of allowed IP Address ranges.</p>
+  </li>
+  <li>
+    <p>Click on <strong>Save</strong> at the top of the blade. Once saved, close the confirmation dialog by clicking the <strong>Ok</strong> button.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: It might take couple of minutes for the firewall changes to get updated on server.</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h4 id="task-4-create-an-azure-cosmos-db-instance">Task 4: Create an Azure Cosmos DB Instance</h4>
+
+<ol>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>Azure Cosmos DB</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Azure Cosmos DB</strong> blade that displays, view your list of Storage instances.</p>
+  </li>
+  <li>
+    <p>At the top of the <strong>Azure Cosmos DB</strong> blade, click the <strong>Add</strong> button.</p>
+  </li>
+  <li>
+    <p>In the <strong>New account</strong> blade that displays, perform the following steps:</p>
+
+    <p>a. In the <strong>ID</strong> field, provide the value <strong>nosql20532[your name in lowercase here]</strong>.</p>
+
+    <p>a. In the <strong>API</strong> list, select the <strong>SQL</strong> option.</p>
+
+    <p>a. In the <strong>Resource group</strong> section, select the <strong>Use existing</strong> option.</p>
+
+    <p>a. In the <strong>Resource group</strong> section, select the value <strong>MOD06NSQL</strong> from the list.</p>
+
+    <p>a. In the <strong>Location</strong> list, select the region closest to your current location.</p>
+
+    <p>a. Ensure that the <em>Enable geo-redundancy</em> checkbox is un-selected.</p>
+
+    <p>a. In the <strong>Virtual networks</strong> section, ensure that the <em>Disabled</em> option is selected.</p>
+
+    <p>a. Click the <strong>Create</strong> button.</p>
+  </li>
+</ol>
+
+<blockquote>
+  <p><strong>Note</strong>: Wait for Azure to finish creating the Azure Cosmos DB account prior to moving forward with the lab. You will receive a notification when the <em>Azure Cosmos DB account</em> is created.</p>
+</blockquote>
+
+<ol>
+  <li>
+    <p>In the navigation pane on the left side of the Azure Portal, click <strong>All services</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>Azure Cosmos DB</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Azure Cosmos DB</strong> blade that displays, select the Azure Cosmos DB account instance that has a prefix of <strong>nosql20532</strong>.</p>
+  </li>
+  <li>
+    <p>In the <em>Azure Cosmos DB account</em> blade, locate the <strong>Settings</strong> section on the left-side of the blade and click the <strong>Keys</strong> link.</p>
+  </li>
+  <li>
+    <p>In the <strong>Keys</strong> pane, record the values in the <strong>URI</strong> and <strong>PRIMARY KEY</strong> fields. You will use these values later in this lab.</p>
+  </li>
+</ol>
+
+<h4 id="task-5-open-the-aspnet-web-application">Task 5: Open the ASP.NET web application</h4>
+
+<ol>
+  <li>
+    <p>On the Start screen, click the <strong>Desktop</strong> tile.</p>
+  </li>
+  <li>
+    <p>On the taskbar, click the <strong>File Explorer</strong> icon.</p>
+  </li>
+  <li>
+    <p>In the <em>This PC</em> window, go to <strong>Allfiles (F):\Mod06\Labfiles\Starter</strong>, and then double-click <strong>Contoso.Events.sln</strong>.</p>
+  </li>
+  <li>
+    <p>On the <strong>Build</strong> menu, click <strong>Build Solution</strong>.</p>
+  </li>
+</ol>
+
+<h4 id="task-6-update-various-application-settings">Task 6: Update Various Application Settings</h4>
+
+<ol>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane of the Contoso.Events - Microsoft Visual Studio window, expand the <strong>Contoso.Events.Web</strong> project.</p>
+  </li>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane, double-click <strong>appsettings.json</strong>.</p>
+  </li>
+  <li>
+    <p>In the JSON object, in line 13, locate the <strong>ConnectionStrings.EventsContextConnectionString</strong> path. Observe that the current value is empty:</p>
+
+    <pre><code> "ConnectionStrings": {
+     "EventsContextConnectionString": ""
+ },
+</code></pre>
+  </li>
+  <li>
+    <p>Update the value of the <strong>EventsContextConnectionString</strong> property by setting it’s value to the <strong>Connection String</strong> of the <strong>SQL Database</strong> you recorded earlier in this lab.</p>
+  </li>
+  <li>
+    <p>In the JSON object, in line 9, locate the <strong>CosmosSettings.EndpointUrl</strong> path. Observe that the current value is empty:</p>
+
+    <pre><code> "CosmosSettings": {
+     "DatabaseId": "EventsDatabase.Mod06",
+     "CollectionId": "RegistrationCollection",
+     "EndpointUrl": "",
+     "AuthorizationKey": ""
+ },
+</code></pre>
+  </li>
+  <li>
+    <p>Update the value of the <strong>EndpointUrl</strong> property by setting it’s value to the <strong>Endpoint Uri</strong> of the <strong>Azure Cosmos DB account</strong> you recorded earlier in this lab.</p>
+  </li>
+  <li>
+    <p>In the JSON object, in line 10, locate the <strong>CosmosSettings.AuthorizationKey</strong> path. Observe that the current value is empty:</p>
+
+    <pre><code> "CosmosSettings": {
+     "DatabaseId": "EventsDatabase.Mod06",
+     "CollectionId": "RegistrationCollection",
+     "EndpointUrl": "",
+     "AuthorizationKey": ""
+ },
+</code></pre>
+  </li>
+  <li>
+    <p>Update the value of the <strong>AuthorizationKey</strong> property by setting it’s value to the <strong>Key</strong> of the <strong>Azure Cosmos DB account</strong> you recorded earlier in this lab.</p>
+  </li>
+  <li>
+    <p>Save the <strong>appsettings.json</strong> file.</p>
+  </li>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane of the Contoso.Events - Microsoft Visual Studio window, expand the <strong>Contoso.Events.Worker</strong> project.</p>
+  </li>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane, double-click <strong>local.settings.json</strong>.</p>
+  </li>
+  <li>
+    <p>In the JSON object, in line 4, locate the <strong>AzureWebJobsStorage</strong> path. Observe that the current value is empty:</p>
+
+    <pre><code> "AzureWebJobsStorage": "",	
+</code></pre>
+  </li>
+  <li>
+    <p>Update the value of the <strong>AzureWebJobsStorage</strong> property by setting it’s value to the <strong>Connection String</strong> of the <strong>Storage account</strong> you recorded earlier in this lab.</p>
+  </li>
+  <li>
+    <p>In the JSON object, in line 5, locate the <strong>AzureWebJobsDashboard</strong> path. Observe that the current value is empty:</p>
+
+    <pre><code> "AzureWebJobsDashboard": "",
+</code></pre>
+  </li>
+  <li>
+    <p>Update the value of the <strong>AzureWebJobsDashboard</strong> property by setting it’s value to the <strong>Connection String</strong> of the <strong>Storage account</strong> you recorded earlier in this lab.</p>
+  </li>
+  <li>
+    <p>In the JSON object, in line 6, locate the <strong>EventsContextConnectionString</strong> path. Observe that the current value is empty:</p>
+
+    <pre><code> "EventsContextConnectionString": "",
+</code></pre>
+  </li>
+  <li>
+    <p>Update the value of the <strong>EventsContextConnectionString</strong> property by setting it’s value to the <strong>Connection String</strong> of the <strong>SQL Database</strong> you recorded earlier in this lab.</p>
+  </li>
+  <li>
+    <p>In the JSON object, in line 7, locate the <strong>CosmosEndpointUrl</strong> path. Observe that the current value is empty:</p>
+
+    <pre><code> "CosmosEndpointUrl": "",
+</code></pre>
+  </li>
+  <li>
+    <p>Update the value of the <strong>CosmosEndpointUrl</strong> property by setting it’s value to the <strong>Endpoint Uri</strong> of the <strong>Azure Cosmos DB account</strong> you recorded earlier in this lab.</p>
+  </li>
+  <li>
+    <p>In the JSON object, in line 8, locate the <strong>CosmosAuthorizationKey</strong> path. Observe that the current value is empty:</p>
+
+    <pre><code> "CosmosAuthorizationKey": "",
+</code></pre>
+  </li>
+  <li>
+    <p>Update the value of the <strong>CosmosAuthorizationKey</strong> property by setting it’s value to the <strong>Key</strong> of the <strong>Azure Cosmos DB account</strong> you recorded earlier in this lab.</p>
+  </li>
+  <li>
+    <p>Save the <strong>local.settings.json</strong> file.</p>
+  </li>
+</ol>
+
+<h4 id="task-7-retrieve-registrant-names-in-the-azure-functions-project">Task 7: Retrieve Registrant Names in the Azure Functions Project</h4>
+
+<ol>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane of the Contoso.Events - Microsoft Visual Studio window, expand the <strong>Contoso.Events.Worker</strong> project and double-click the <strong>ProcessDocuments.cs</strong> file.</p>
+  </li>
+  <li>
+    <p>In the code editor tab for the <strong>ProcessDocuments.cs</strong> file, locate the <strong>ProcessDocuments</strong> class:</p>
+
+    <pre><code> public static class ProcessDocuments
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>ProcessDocuments</strong> class, add a new line of code at line 19 to create a new static instance of the <strong>RegistrationContext</strong> class:</p>
+
+    <pre><code> private static RegistrationContext _registrationsContext = _connection.GetCosmosContext();
+</code></pre>
+  </li>
+  <li>
+    <p>Locate the <strong>ProcessHttpRequestMessage</strong> method:</p>
+
+    <pre><code> private static async Task&lt;List&lt;string&gt;&gt; ProcessHttpRequestMessage(string eventKey)
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>ProcessHttpRequestMessage</strong> method, add a new line of code at line 40 configure the connection to Azure Cosmos DB using the <strong>ConfigureConnectionAsync</strong> method of the <strong>RegistrationContext</strong> class:</p>
+
+    <pre><code> await _registrationsContext.ConfigureConnectionAsync();
+</code></pre>
+  </li>
+  <li>
+    <p>Locate the line of code at line 44 that stores an empty collection of string values in the <strong>registrants</strong> variable:</p>
+
+    <pre><code> List&lt;string&gt; registrants = new List&lt;string&gt;();
+</code></pre>
+  </li>
+  <li>
+    <p>Replace the line of code at line 44 with a new line of code that invokes the <strong>GetRegistrantsForEvent</strong> method of the <strong>RegistrationContext</strong> class:</p>
+
+    <pre><code> List&lt;string&gt; registrants = await _registrationsContext.GetRegistrantsForEvent(eventKey);
+</code></pre>
+  </li>
+  <li>
+    <p>Save the <strong>ProcessDocuments.cs</strong> file.</p>
+  </li>
+</ol>
+
+<h2 id="exercise-2-updating-the-events-website-to-use-azure-cosmos-db">Exercise 2: Updating the Events Website to use Azure Cosmos DB</h2>
+
+<h4 id="task-1-implement-registrationcontext-class">Task 1: Implement RegistrationContext class</h4>
+
+<ol>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane of the Contoso.Events - Microsoft Visual Studio window, expand the <strong>Contoso.Events.Data</strong> project and double-click the <strong>RegistrationContext.cs</strong> file.</p>
+  </li>
+  <li>
+    <p>In the code editor tab for the <strong>RegistrationContext.cs</strong> file, locate the <strong>RegistrationContext</strong> class:</p>
+
+    <pre><code> public class RegistrationContext
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>RegistrationContext</strong> class, add a new line of code to create a new property of type <strong>Database</strong>:</p>
+
+    <pre><code> protected Database Database { get; set; }
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>RegistrationContext</strong> class, add a new line of code to create a new property of type <strong>DocumentCollection</strong>:</p>
+
+    <pre><code> protected DocumentCollection Collection { get; set; }
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>RegistrationContext</strong> class, add a new line of code to create a new property of type <strong>DocumentClient</strong>:</p>
+
+    <pre><code> protected DocumentClient Client { get; set; }
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>RegistrationContext</strong> class, locate the existing <strong>RegistrationContext</strong> constructor:</p>
+
+    <pre><code> public RegistrationContext(IOptions&lt;CosmosSettings&gt; cosmosSettings)
+ {
+     CosmosSettings = cosmosSettings.Value;
+ }
+</code></pre>
+  </li>
+  <li>
+    <p>Within the constructor, add a new line of code to create a new <strong>DocumentClient</strong> instance and save it to the <em>Client</em> property:</p>
+
+    <pre><code> Client = new DocumentClient(new Uri(CosmosSettings.EndpointUrl), CosmosSettings.AuthorizationKey);
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>RegistrationContext</strong> class, locate the <strong>ConfigureConnectionAsync</strong> method and delete any existing code within the method:</p>
+
+    <pre><code> public async Task ConfigureConnectionAsync()
+ {
+
+ }
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>ConfigureConnectionAsync</strong> method, add a new line of code to create a new <strong>Database</strong> instance and save it to the <strong>Database</strong> property:</p>
+
+    <pre><code> Database = await Client.CreateDatabaseIfNotExistsAsync(new Database { Id = CosmosSettings.DatabaseId });
+</code></pre>
+  </li>
+  <li>
+    <p>Add a new line of code to create a new <strong>DocumentCollection</strong> instance and save it to the <strong>Collection</strong> property:</p>
+
+    <pre><code> Collection = await Client.CreateDocumentCollectionIfNotExistsAsync(Database.SelfLink, new DocumentCollection { Id = CosmosSettings.CollectionId });
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>RegistrationContext</strong> class, locate the <strong>GetRegistrantCountAsync</strong> method and delete any existing code within the method:</p>
+
+    <pre><code> public async Task&lt;int&gt; GetRegistrantCountAsync()
+ {
+
+ }
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>GetRegistrantCountAsync</strong> method, add a new line of code to create a new instance of the <strong>FeedOptions</strong> class with it’s <strong>EnableCrossPartitionQuery</strong> property set to a value of true:</p>
+
+    <pre><code> FeedOptions options = new FeedOptions { EnableCrossPartitionQuery = true };
+</code></pre>
+  </li>
+  <li>
+    <p>Add a new line of code to create a query that gets the count of registrants and returns a collection of integer values:</p>
+
+    <pre><code> IDocumentQuery&lt;int&gt; query = Client.CreateDocumentQuery&lt;int&gt;(Collection.SelfLink, "SELECT VALUE COUNT(1) FROM registrants", options).AsDocumentQuery();
+</code></pre>
+  </li>
+  <li>
+    <p>Add a new block of code to create an integer variable named <strong>count</strong>, a while loop that iterates over the <strong>HasMoreResults</strong> property of the <strong>IDocumentQuery&lt;&gt;</strong> class and returns the final value of the <strong>count</strong> variable:</p>
+
+    <pre><code> int count = 0;
+ while (query.HasMoreResults)
+ {
+
+ }
+ return count;
+</code></pre>
+  </li>
+  <li>
+    <p>Within the while loop, add a line of code to invoke the <strong>ExecuteNextAsync&lt;&gt;</strong> method of the <strong>IDocumentQuery&lt;&gt;</strong> class and store it’s result in a variable named <strong>results</strong> of type <strong>FeedResponse&lt;&gt;</strong>:</p>
+
+    <pre><code> FeedResponse&lt;int&gt; results = await query.ExecuteNextAsync&lt;int&gt;();
+</code></pre>
+  </li>
+  <li>
+    <p>Still within the while loop, add a line of code to increment the <strong>count</strong> variable by the result of invoking the <strong>Sum</strong> LINQ method on the collection stored in the <strong>results</strong> variable:</p>
+
+    <pre><code> count += results.Sum();
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>RegistrationContext</strong> class, locate the <strong>GetRegistrantsForEvent</strong> method and delete any existing code within the method:</p>
+
+    <pre><code> public async Task&lt;List&lt;string&gt;&gt; GetRegistrantsForEvent(string eventKey)
+ {
+
+ }
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>GetRegistrantsForEvent</strong> method, add a line of code that uses LINQ to get registrants for a specific event using the value of the <strong>eventKey</strong> parameter and de-serialize those registrants using the <strong>GeneralRegistration</strong> class:</p>
+
+    <pre><code> IDocumentQuery&lt;GeneralRegistration&gt; query = Client.CreateDocumentQuery&lt;GeneralRegistration&gt;(Collection.SelfLink).Where(r =&gt; r.EventKey == eventKey).AsDocumentQuery();
+</code></pre>
+  </li>
+  <li>
+    <p>Add a new block of code to create a <strong>List&lt;&gt;</strong> variable named <strong>registrants</strong>, a while loop that iterates over the <strong>HasMoreResults</strong> property of the <strong>IDocumentQuery&lt;&gt;</strong> class and returns the final value of the <strong>registrants</strong> variable:</p>
+
+    <pre><code> List&lt;string&gt; registrants = new List&lt;string&gt;();
+ while (query.HasMoreResults)
+ {
+		
+ }
+ return registrants;
+</code></pre>
+  </li>
+  <li>
+    <p>Within the while loop, add a line of code to invoke the <strong>ExecuteNextAsync&lt;&gt;</strong> method of the <strong>IDocumentQuery&lt;&gt;</strong> class and store it’s result in a variable named <strong>results</strong> of type <strong>FeedResponse&lt;&gt;</strong>:</p>
+
+    <pre><code> FeedResponse&lt;GeneralRegistration&gt; results = await query.ExecuteNextAsync&lt;GeneralRegistration&gt;();
+</code></pre>
+  </li>
+  <li>
+    <p>Still within the while loop, add a line of code that invokes the <strong>Select</strong> LINQ method to project two properties of the <strong>GeneralRegistration</strong> class as a single string and store the resulting collection in a variable named <strong>resultNames</strong> of type <strong>IEnumerable&lt;&gt;</strong>:</p>
+
+    <pre><code> IEnumerable&lt;string&gt; resultNames = results.Select(r =&gt; $"{r.FirstName} {r.LastName}");
+</code></pre>
+  </li>
+  <li>
+    <p>Still within the while loop, add another line of code to append the <strong>registrants</strong> collection with the values in the <strong>resultNames</strong> collection using the <strong>AddRange</strong> method of the <strong>List&lt;&gt;</strong> class.</p>
+
+    <pre><code> registrants.AddRange(resultNames);
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>RegistrationContext</strong> class, locate the <strong>UploadEventRegistrationAsync</strong> method and delete any existing code within the method:</p>
+
+    <pre><code> public async Task&lt;string&gt; UploadEventRegistrationAsync(dynamic registration)
+ {
+
+ }
+</code></pre>
+  </li>
+  <li>
+    <p>Within the <strong>UploadEventRegistrationAsync</strong> method, add a line of code to invoke the <strong>CreateDocumentAsync</strong> method of the <strong>Client</strong> property of type <strong>DocumentClient</strong> and save the result as a variable named <strong>response</strong> of type <strong>ResourceResponse&lt;Document&gt;</strong>. This method will upload the document to Azure Cosmos DB:</p>
+
+    <pre><code> ResourceResponse&lt;Document&gt; response = await Client.CreateDocumentAsync(Collection.SelfLink, registration);
+</code></pre>
+  </li>
+  <li>
+    <p>Add another line of code to use dot notation to access the <strong>Resource</strong> property (of type <strong>Document</strong>) of the <strong>response</strong> variable and the <strong>Id</strong> property of the <strong>Document</strong> instance. Return the string <strong>Id</strong> value as the result of the current method:</p>
+
+    <pre><code> return response.Resource.Id;
+</code></pre>
+  </li>
+</ol>
+
+<h2 id="exercise-3-verify-that-the-events-web-site-is-using-azure-cosmos-db-for-registrations">Exercise 3: Verify that the Events Web Site is using Azure Cosmos DB for Registrations</h2>
+
+<h4 id="task-1-run-the-aspnet-web-application-to-view-events-from-the-local-sql-database">Task 1: Run the ASP.NET Web Application to View Events from the Local SQL Database</h4>
+
+<ol>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane, right-click the <strong>Contoso.Events.Web</strong> project, and then click <strong>Set as Startup Project</strong>.</p>
+  </li>
+  <li>
+    <p>On the <strong>Debug</strong> menu, click <strong>Start Debugging</strong>.</p>
+  </li>
+  <li>
+    <p>On the home page of the web application, verify that it displays a list of events.</p>
+  </li>
+  <li>
+    <p>Click any of the events in the list.</p>
+  </li>
+  <li>
+    <p>Record the value of the unique <strong>Event Key</strong> of the event you selected. You will use this value later in the lab.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: You can see this unique event key by looking at the URL for the event. For example, if the URL is <code>http://localhost:52127/events/detail/fy18septembergeneralconference09</code>, the unique event key would be <code>fy18septembergeneralconference09</code>.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>On the event web page, click the <strong>Register Now</strong> button.</p>
+  </li>
+  <li>
+    <p>Fill out all of the fields in the registration form and click Submit.</p>
+  </li>
+  <li>
+    <p>Record the value of the <strong>Registration Id</strong> displayed after submitting an event registration. You will use this value later in the lab.</p>
+  </li>
+  <li>
+    <p>Close the browser window that is displaying the website.</p>
+  </li>
+  <li>
+    <p>In the <strong>Solution Explorer</strong> pane, right-click the <strong>Contoso.Events.Worker</strong> project, and then click <strong>Set as Startup Project</strong>.</p>
+  </li>
+  <li>
+    <p>On the <strong>Debug</strong> menu, click <strong>Start Debugging</strong>.</p>
+  </li>
+  <li>
+    <p>In the command prompt, you will see a single <strong>Function URL</strong> displayed in <em>green text</em> for your <strong>ProcessDocuments</strong> Function endpoint. Record this value as you will use this value later in this lab.</p>
+  </li>
+  <li>
+    <p>On the Start screen, click the <strong>Internet Explorer</strong> tile.</p>
+  </li>
+  <li>
+    <p>In the browser address bar, paste in the <strong>Function URL</strong> you copied earlier in this lab. Use the <strong>Enter</strong> key to issue a <strong>HTTP GET</strong> request to the URL.</p>
+  </li>
+  <li>
+    <p>Return to the console application. You will observe various logging error messages. Most importantly, you will see see a message indicating that there were no registrants for the event key you specified (<strong>null</strong>):</p>
+
+    <pre><code> [00/00/0000 0:00:00 PM] Registrants: 
+</code></pre>
+  </li>
+  <li>
+    <p>Return to your open browser window and update your URL by adding a new <em>query string</em> parameter named <strong>eventKey</strong> and using the unique <strong>Event Key</strong> you copied earlier in this lab. Use the <strong>Enter</strong> key to issue a <strong>HTTP GET</strong> request to the URL.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: For example, if your <em>Endpoint URL</em> is <code>http://localhost:7071/api/ProcessDocuments</code> and your <strong>Event Key</strong> is <strong>fy18septembergeneralconference09</strong>, your new URL would be <code>http://localhost:7071/api/ProcessDocuments?eventKey=fy18septembergeneralconference09</code>.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Return to the console application again. Observe that the registration you created earlier is included in the list of registrations. Below is an example list of event registrations:</p>
+
+    <pre><code> [00/00/0000 0:00:00 PM] Registrants: Example Person, Demo User, Unique Individual
+</code></pre>
+  </li>
+  <li>
+    <p>Close the browser window that you are using to send requests.</p>
+  </li>
+  <li>
+    <p>Close the console window for the Azure Functions instance.</p>
+  </li>
+</ol>
+
+<h4 id="task-2-sign-in-to-the-azure-portal">Task 2: Sign in to the Azure Portal</h4>
+
+<ol>
+  <li>
+    <p>On the Start screen, click the <strong>Internet Explorer</strong> tile.</p>
+  </li>
+  <li>
+    <p>Go to <em>(<a href="https://portal.azure.com/">https://portal.azure.com</a>)</em>.</p>
+  </li>
+  <li>
+    <p>In the email address box, type the email address of your Microsoft account.</p>
+  </li>
+  <li>
+    <p>In the password box, type the password for your Microsoft account.</p>
+  </li>
+  <li>
+    <p>Click <strong>Sign In</strong>.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: If this is your first time logging in to the Portal, you may be prompted with a “Welcome” dialog. You can safely close this dialog and continue.</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h4 id="task-2-validate-azure-cosmos-db-data">Task 2: Validate Azure Cosmos DB Data</h4>
+
+<ol>
+  <li>
+    <p>In the <strong>All services</strong> blade that displays, click <strong>Azure Cosmos DB</strong>.</p>
+  </li>
+  <li>
+    <p>In the <strong>Azure Cosmos DB</strong> blade that displays, select the Azure Cosmos DB account instance that has a prefix of <strong>nosql20532</strong>.</p>
+  </li>
+  <li>
+    <p>In the <em>Azure Cosmos DB account</em> blade, locate the <strong>Data Explorer</strong> link on the left-side of the blade.</p>
+  </li>
+  <li>
+    <p>In the <strong>Data Explorer</strong> pane, expand the <strong>EventsDatabase.Mod06</strong> database node and then expand the <strong>RegistrationCollection</strong> collection node.</p>
+  </li>
+  <li>
+    <p>Click the <strong>New SQL Query</strong> button at the top of the <strong>Data Explorer</strong> pane.</p>
+  </li>
+  <li>
+    <p>In the query tab, replace the contents of the <em>query editor</em> with the following SQL query:</p>
+
+    <pre><code class="language-sql"> SELECT * FROM registrations ORDER BY registrations._ts DESC
+</code></pre>
+
+    <blockquote>
+      <p><strong>Note</strong>: This query will match all documents but only return a page of results at at time. We are ordering by the timestamp field (<strong>_ts</strong>) so that you can see the registrations you created first.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Click the <strong>Execute Query</strong> button in the query tab to run the query.</p>
+  </li>
+  <li>
+    <p>In the <strong>Results</strong> pane, observe the results of your query.</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: You should now see various JSON documents representing each event registration. There are registrations you manually created and registrations created automatically by the application when it first launched.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>In the query tab, replace the contents of the <em>query editor</em> with the following SQL query replacing the <code>{registration_id}</code> placeholder with the value of the <strong>Registration Id</strong> you recorded earlier in this lab:</p>
+
+    <pre><code class="language-sql"> SELECT VALUE { first: r.FirstName, last: r.LastName } FROM registrations r WHERE r.id = '{registration_id}'
+</code></pre>
+  </li>
+  <li>
+    <p>Click the <strong>Execute Query</strong> button in the query tab to run the query.</p>
+  </li>
+  <li>
+    <p>In the <strong>Results</strong> pane, observe the results of your query.</p>
+  </li>
+  <li>
+    <p>In the query tab, replace the contents of the <em>query editor</em> with the following SQL query replacing the <code>{event_key}</code> placeholder with the value of the <strong>Event Key</strong> you recorded earlier in this lab:</p>
+
+    <pre><code class="language-sql"> SELECT VALUE CONCAT(r.FirstName, ' ', r.LastName) FROM registrations r WHERE r.EventKey = '{event_key}'
+</code></pre>
+  </li>
+  <li>
+    <p>Click the <strong>Execute Query</strong> button in the query tab to run the query.</p>
+  </li>
+  <li>
+    <p>In the <strong>Results</strong> pane, observe the results of your query.</p>
+  </li>
+</ol>
+
+<h2 id="exercise-4-cleanup-subscription">Exercise 4: Cleanup Subscription</h2>
+
+<h4 id="task-1-open-cloud-shell">Task 1: Open Cloud Shell</h4>
+
+<ol>
+  <li>
+    <p>At the top of the portal, click the <strong>Cloud Shell</strong> icon to open a new shell instance.</p>
+  </li>
+  <li>
+    <p>In the <strong>Cloud Shell</strong> command prompt at the bottom of the portal, type in the following command and press <strong>Enter</strong> to list all resource groups in the subscription:</p>
+
+    <pre><code> az group list
+</code></pre>
+  </li>
+  <li>
+    <p>Type in the following command and press <strong>Enter</strong> to view a list of possible CLI commands to <em>delete a Resource Group</em>:</p>
+
+    <pre><code> az group delete --help
+</code></pre>
+  </li>
+</ol>
+
+<h4 id="task-2-delete-resource-group">Task 2: Delete Resource Group</h4>
+
+<ol>
+  <li>
+    <p>Type in the following command and press <strong>Enter</strong> to delete the <strong>MOD06NSQL</strong> <em>Resource Group</em>:</p>
+
+    <pre><code> az group delete --name MOD06NSQL --no-wait --yes
+</code></pre>
+  </li>
+  <li>
+    <p>Close the <strong>Cloud Shell</strong> prompt at the bottom of the portal.</p>
+  </li>
+</ol>
+
+<h4 id="task-3-close-active-applications">Task 3: Close Active Applications</h4>
+
+<ol>
+  <li>
+    <p>Close the currently running web browser application.</p>
+  </li>
+  <li>
+    <p>Close the currently running <strong>Visual Studio</strong> application.</p>
+  </li>
+</ol>
+
+<blockquote>
+  <p><strong>Review</strong>: In this exercise, you “cleaned up your subscription” by removing the <strong>Resource Groups</strong> used in this lab.</p>
+</blockquote>
+
+            </article>
+        </main>
+    </div>
+    <footer class="fixed-bottom">
+        <nav class="navbar navbar-light bg-light d-flex justify-content-around">
+            <span class="navbar-text">
+                <i class="fa fa-github" aria-hidden="true"></i>
+                <a href="https://github.com/MicrosoftLearning/20532-DevelopingMicrosoftAzureSolutions" target="_blank" class="ml-2">
+                    MicrosoftLearning/20532-DevelopingMicrosoftAzureSolutions
+                </a>
+            </span>
+        </nav>
+    </footer>
+    <script src="../../../../../code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="../../../../../cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="../../../../../maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+        $(function() {
+            $('article img').each(function() {
+                var src = $(this).attr('src');
+                $(this).wrap('<a href="' + src + '" target="_blank"></a>');
+            });
+            $('article > h2').each(function() {
+                $('nav.toc > ul').append(
+                    $('<li>')
+                        .attr('class', 'nav-item')
+                        .append(
+                            $('<a>')
+                                .attr('class', 'nav-link')
+                                .text($(this).text())
+                                .attr('href', '#' + $(this).attr('id'))
+                        ) 
+                );
+            });
+            $('[data-spy="scroll"]').each(function () {
+                var $spy = $(this).scrollspy('refresh')
+            });
+        });
+    </script>
+</body>
+
+
+<!-- Mirrored from microsoftlearning.github.io/20532-DevelopingMicrosoftAzureSolutions/Instructions/Labs/Mod06/LAB_AK_06.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Feb 2020 04:43:06 GMT -->
+</html>
